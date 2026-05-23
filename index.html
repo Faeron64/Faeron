@@ -22,7 +22,6 @@
       margin: 70px auto;
       width: fit-content;
       max-width: 90%;
-      border-radius: 22px;
       border: 2px solid white;
       box-shadow: 0 0 30px black;
     }
@@ -54,7 +53,6 @@
       color: #111111;
       text-decoration: none;
       font-weight: bold;
-      border-radius: 999px;
       border: 3px solid black;
       box-shadow: 4px 4px 0 black;
       transition: 0.15s;
@@ -73,6 +71,19 @@
 
     .game {
       background: #00ff99;
+    }
+
+    .disabled {
+      background: #777777;
+      color: #cccccc;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .disabled:hover {
+      transform: none;
+      box-shadow: 4px 4px 0 black;
+      background: #777777;
     }
 
     .social-title {
@@ -95,13 +106,13 @@
     <p>I AM FAERON</p>
 
     <div class="buttons">
-      <a class="button game" href="https://www.roblox.com/users/417428886/profile" target="_blank">
-        Play My Arcade Game
+      <a class="button game" href="https://www.roblox.com/games/101294863351383" target="_blank">
+        My ROBLOX Game Collection
       </a>
 
-      <a class="button game" href="https://www.roblox.com/users/417428886/profile" target="_blank">
-        More Roblox Stuff
-      </a>
+      <span class="button disabled">
+        ???
+      </span>
     </div>
 
     <div class="social-title">SOCIALS</div>
