@@ -1,2 +1,2 @@
 # Faeron
-Faerons lil website
+Faeron's website
