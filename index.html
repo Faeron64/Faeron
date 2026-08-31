@@ -38,22 +38,22 @@ body {
 .site {
     width: 920px;
     max-width: calc(100% - 28px);
-    margin: 110px auto 45px;
+    margin: 95px auto 45px;
     background: #c0c0c0;
     border-top: 3px solid #ffffff;
     border-left: 3px solid #ffffff;
     border-right: 3px solid #505050;
     border-bottom: 3px solid #505050;
-    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.45);
+    box-shadow: 8px 8px 0 rgba(0,0,0,0.45);
     position: relative;
 }
 
 .hat {
     position: absolute;
-    width: calc(100% + 90px);
-    height: 110px;
+    width: calc(100% + 85px);
+    height: 82px;
     left: 50%;
-    top: -92px;
+    top: -82px;
     transform: translateX(-50%);
     pointer-events: none;
 }
@@ -61,12 +61,11 @@ body {
 .hat-crown {
     position: absolute;
     width: 72%;
-    height: 62px;
+    height: 64px;
     left: 14%;
     top: 0;
-    background: #101015;
+    background: #111116;
     border: 3px solid #000000;
-    overflow: hidden;
 }
 
 .hat-stripe {
@@ -83,17 +82,17 @@ body {
 .hat-brim {
     position: absolute;
     width: 100%;
-    height: 24px;
+    height: 21px;
     left: 0;
-    bottom: 3px;
-    background: #101015;
+    bottom: 0;
+    background: #111116;
     border: 3px solid #000000;
 }
 
 .header {
     background: #ffffff;
     margin: 7px 7px 0;
-    padding: 38px 20px 18px;
+    padding: 32px 20px 18px;
     border-top: 2px solid #808080;
     border-left: 2px solid #808080;
     border-right: 2px solid #ffffff;
@@ -110,7 +109,7 @@ body {
 }
 
 .header-subtitle {
-    margin: 7px 0 0;
+    margin-top: 7px;
     font-size: 13px;
 }
 
@@ -125,7 +124,6 @@ marquee {
 .tabs {
     display: flex;
     margin: 7px 7px 0;
-    border-bottom: 1px solid #808080;
 }
 
 .tab-button {
@@ -194,10 +192,6 @@ a:visited {
     border-bottom: 2px solid #ffffff;
 }
 
-.welcome-box p {
-    line-height: 1.55;
-}
-
 .news-box {
     margin-top: 20px;
     padding: 13px;
@@ -228,10 +222,6 @@ a:visited {
     font-size: 24px;
 }
 
-.game-card p {
-    line-height: 1.5;
-}
-
 .game-link {
     display: inline-block;
     margin-top: 6px;
@@ -244,7 +234,6 @@ a:visited {
     color: #0000ee !important;
     font-weight: bold;
     text-decoration: underline;
-    cursor: pointer;
 }
 
 .game-link:hover {
@@ -265,14 +254,14 @@ a:visited {
 }
 
 #fanart-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: start;
-    gap: 18px;
+    column-count: 3;
+    column-gap: 18px;
 }
 
 .fanart-item {
+    display: inline-block;
     width: 100%;
+    margin: 0 0 18px;
     padding: 8px;
     background: #eeeeee;
     border-top: 2px solid #ffffff;
@@ -280,6 +269,7 @@ a:visited {
     border-right: 2px solid #808080;
     border-bottom: 2px solid #808080;
     text-align: center;
+    break-inside: avoid;
 }
 
 .fanart-item img {
@@ -328,25 +318,16 @@ a:visited {
     background: #ffffff;
 }
 
-.social-card:active {
-    border-top: 2px solid #808080;
-    border-left: 2px solid #808080;
-    border-right: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
-}
-
 .social-icon {
     width: 32px;
     height: 32px;
     object-fit: contain;
-    flex-shrink: 0;
 }
 
 .polytoria-logo {
     width: 100px;
     height: auto;
     object-fit: contain;
-    flex-shrink: 0;
 }
 
 .social-title {
@@ -362,16 +343,11 @@ a:visited {
 
 @media (max-width: 700px) {
     .site {
-        margin-top: 90px;
+        margin-top: 80px;
     }
 
     .hat {
-        width: calc(100% + 40px);
-        top: -78px;
-    }
-
-    .hat-crown {
-        height: 52px;
+        width: calc(100% + 35px);
     }
 
     .header h1 {
@@ -388,7 +364,7 @@ a:visited {
     }
 
     #fanart-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-count: 2;
     }
 
     .social-grid {
@@ -398,7 +374,7 @@ a:visited {
 
 @media (max-width: 430px) {
     #fanart-grid {
-        grid-template-columns: 1fr;
+        column-count: 1;
     }
 }
 </style>
@@ -450,7 +426,6 @@ a:visited {
         <h2>My Games</h2>
 
         <div class="games-grid">
-
             <div class="game-card">
                 <h3>Current Project</h3>
                 <p>I'm currently working on a new 3D platformer in Godot.</p>
@@ -467,7 +442,6 @@ a:visited {
                     VISIT GAME ARCHIVE
                 </a>
             </div>
-
         </div>
     </div>
 
