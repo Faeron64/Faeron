@@ -1,177 +1,607 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Faeron</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Faeron's Website</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: "Comic Sans MS", "Comic Sans", cursive;
-      color: white;
-      text-align: center;
 
-      background-image: url("https://raw.githubusercontent.com/Faeron64/Faeron/main/w9d42s8.gif");
-      background-repeat: repeat;
-      background-size: 32px 32px;
+      font-family: "Courier New", monospace;
+      color: white;
+
+      background-image: url("bggif");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+
       image-rendering: pixelated;
-      image-rendering: crisp-edges;
     }
 
-    .site-url {
-      margin-top: 18px;
-      font-size: 28px;
-      font-weight: bold;
-      text-shadow: 3px 3px 0 black;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.30);
+      pointer-events: none;
+      z-index: -1;
     }
 
-    .site-url a {
-      color: white;
-      text-decoration: none;
+
+    /* MAIN WEBSITE */
+
+    .website {
+      width: min(1000px, 94%);
+      margin: 30px auto;
+      background: rgba(10, 12, 18, 0.92);
+
+      border: 3px solid white;
+      box-shadow:
+        8px 8px 0 black,
+        0 0 30px rgba(0, 0, 0, 0.8);
     }
 
-    .site-url a:hover {
-      text-decoration: underline;
+
+    /* HEADER */
+
+    header {
+      text-align: center;
+      padding: 30px 20px 20px;
+      border-bottom: 2px solid white;
     }
 
-    .box {
-      background: rgba(0, 0, 0, 0.72);
-      padding: 35px;
-      margin: 35px auto 70px;
-      width: fit-content;
-      max-width: 90%;
-      border: 2px solid white;
-      box-shadow: 0 0 30px black;
+    header h1 {
+      font-size: 50px;
+      margin: 0;
+      letter-spacing: 5px;
+      text-shadow: 4px 4px black;
     }
 
-    h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
-      text-shadow: 3px 3px 0 black;
+    header p {
+      margin: 10px 0 0;
+      font-size: 16px;
     }
 
-    p {
-      font-size: 22px;
-    }
 
-    .buttons {
+    /* NAVIGATION */
+
+    nav {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 12px;
-      margin-top: 25px;
+
+      border-bottom: 2px solid white;
+      background: #111722;
     }
 
-    .button {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 20px;
-      background: #ffffff;
-      color: #111111;
-      text-decoration: none;
-      font-family: "Comic Sans MS", "Comic Sans", cursive;
+    .tab-button {
+      font-family: "Courier New", monospace;
+      font-size: 16px;
       font-weight: bold;
-      border: 3px solid black;
-      box-shadow: 4px 4px 0 black;
-      transition: 0.15s;
+
+      color: white;
+      background: transparent;
+
+      padding: 15px 25px;
+
+      border: 0;
+      border-right: 1px solid #555;
+
+      cursor: pointer;
     }
 
-    .button:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 6px 6px 0 black;
-      background: #dbeafe;
+    .tab-button:hover {
+      background: white;
+      color: black;
     }
 
-    .button img {
-      width: 24px;
-      height: 24px;
+    .tab-button.active {
+      background: white;
+      color: black;
+    }
+
+
+    /* PAGE CONTENT */
+
+    .tab {
+      display: none;
+      padding: 30px;
+      min-height: 420px;
+    }
+
+    .tab.active {
+      display: block;
+    }
+
+    h2 {
+      margin-top: 0;
+
+      border-bottom: 2px dashed white;
+      padding-bottom: 10px;
+    }
+
+    a {
+      color: #8dcaff;
+    }
+
+
+    /* HOME */
+
+    .welcome-box {
+      border: 2px solid #777;
+      padding: 20px;
+      background: #080a0f;
+    }
+
+    .welcome-title {
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+
+    /* GAME CARDS */
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .game-card {
+      border: 2px solid white;
+      background: #090c12;
+      padding: 15px;
+      box-shadow: 5px 5px black;
+    }
+
+    .game-card img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+
+      border: 1px solid #666;
+
+      image-rendering: pixelated;
+    }
+
+    .game-card h3 {
+      margin-bottom: 6px;
+    }
+
+
+    /* FAN ART */
+
+    .fanart-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+
+      gap: 16px;
+    }
+
+    .fanart {
+      background: #090c12;
+      border: 2px solid white;
+      padding: 8px;
+
+      box-shadow: 4px 4px black;
+    }
+
+    .fanart img {
+      width: 100%;
+      display: block;
+
       object-fit: contain;
+
+      image-rendering: auto;
     }
 
-    .polytoria-logo {
-      width: 95px !important;
-      height: auto !important;
-      filter: invert(1);
+    .fanart-name {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 14px;
     }
 
-    .game {
-      background: #00ff99;
+
+    /* SOCIAL BUTTONS */
+
+    .socials {
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(200px, 1fr));
+
+      gap: 15px;
     }
 
-    .disabled {
-      background: #777777;
-      color: #cccccc;
-      cursor: not-allowed;
-      pointer-events: none;
+    .social-button {
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 16px;
+
+      color: black;
+      background: white;
+
+      text-decoration: none;
+      font-weight: bold;
+
+      border: 3px solid black;
+
+      box-shadow: 5px 5px black;
+
+      transition: 0.1s;
     }
 
-    .disabled:hover {
-      transform: none;
-      box-shadow: 4px 4px 0 black;
-      background: #777777;
+    .social-button:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 7px 7px black;
+      background: #d9eaff;
     }
 
-    .social-title {
-      margin-top: 35px;
-      font-size: 18px;
-      letter-spacing: 2px;
+
+    /* FOOTER */
+
+    footer {
+      padding: 15px;
+
+      text-align: center;
+
+      border-top: 2px solid white;
+
+      font-size: 13px;
+
+      background: #090c12;
     }
+
+
+    /* MOBILE */
+
+    @media (max-width: 600px) {
+
+      header h1 {
+        font-size: 36px;
+      }
+
+      .tab {
+        padding: 20px;
+      }
+
+      .tab-button {
+        flex: 1;
+        min-width: 50%;
+      }
+
+    }
+
   </style>
 </head>
 
 <body>
-  <div class="site-url">
-    <a href="https://faeron64.github.io/Faeron/" target="_blank">
-      https://faeron64.github.io/Faeron/
-    </a>
+
+  <div class="website">
+
+    <header>
+      <h1>FAERON</h1>
+
+      <p>
+        Indie Game Developer
+      </p>
+    </header>
+
+
+    <nav>
+
+      <button class="tab-button active"
+        onclick="openTab('home', this)">
+        HOME
+      </button>
+
+      <button class="tab-button"
+        onclick="openTab('games', this)">
+        GAMES
+      </button>
+
+      <button class="tab-button"
+        onclick="openTab('fanart', this)">
+        FAN ART
+      </button>
+
+      <button class="tab-button"
+        onclick="openTab('socials', this)">
+        SOCIALS
+      </button>
+
+    </nav>
+
+
+
+    <!-- HOME -->
+
+    <section id="home" class="tab active">
+
+      <h2>HOME</h2>
+
+      <div class="welcome-box">
+
+        <div class="welcome-title">
+          Welcome to my website!
+        </div>
+
+        <p>
+          I'm Faeron.
+        </p>
+
+        <p>
+          I make games using Godot and Polytoria.
+        </p>
+
+        <p>
+          This website contains my games, socials,
+          fan art and other stuff I've made.
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- GAMES -->
+
+    <section id="games" class="tab">
+
+      <h2>GAMES</h2>
+
+      <div class="games">
+
+
+        <div class="game-card">
+
+          <!-- Replace this later with a screenshot -->
+
+          <img
+            src="images/game-placeholder.png"
+            alt="Game">
+
+          <h3>My Current Game</h3>
+
+          <p>
+            Currently in development.
+          </p>
+
+        </div>
+
+
+
+        <div class="game-card">
+
+          <img
+            src="images/roblox.png"
+            alt="Roblox Archive">
+
+          <h3>ROBLOX Game Archive</h3>
+
+          <p>
+            Archive of my older ROBLOX projects.
+          </p>
+
+          <a
+            href="https://www.roblox.com/games/101294863351383"
+            target="_blank">
+
+            VIEW ARCHIVE
+
+          </a>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- FAN ART -->
+
+    <section id="fanart" class="tab">
+
+      <h2>FAN ART</h2>
+
+      <p>
+        Art people have made for my games and characters.
+      </p>
+
+
+      <div class="fanart-grid">
+
+
+        <div class="fanart">
+
+          <img
+            src="fanart/example1.png"
+            alt="Fan Art">
+
+          <div class="fanart-name">
+            Art by Someone
+          </div>
+
+        </div>
+
+
+        <div class="fanart">
+
+          <img
+            src="fanart/example2.png"
+            alt="Fan Art">
+
+          <div class="fanart-name">
+            Art by Someone Else
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- SOCIALS -->
+
+    <section id="socials" class="tab">
+
+      <h2>SOCIALS</h2>
+
+      <div class="socials">
+
+
+        <a
+          class="social-button"
+          href="https://github.com/Faeron64"
+          target="_blank">
+
+          GITHUB
+
+        </a>
+
+
+        <a
+          class="social-button"
+          href="https://youtube.com/@F4ER0N"
+          target="_blank">
+
+          YOUTUBE
+
+        </a>
+
+
+        <a
+          class="social-button"
+          href="https://x.com/Faeron64"
+          target="_blank">
+
+          TWITTER
+
+        </a>
+
+
+        <a
+          class="social-button"
+          href="https://twitch.tv/faeron64"
+          target="_blank">
+
+          TWITCH
+
+        </a>
+
+
+        <a
+          class="social-button"
+          href="https://www.roblox.com/users/417428886/profile"
+          target="_blank">
+
+          ROBLOX
+
+        </a>
+
+
+        <a
+          class="social-button"
+          href="https://polytoria.com/u/Faeron"
+          target="_blank">
+
+          POLYTORIA
+
+        </a>
+
+
+        <a
+          class="social-button"
+          href="https://bsky.app/profile/faeron64.bsky.social"
+          target="_blank">
+
+          BLUESKY
+
+        </a>
+
+
+        <a
+          class="social-button"
+          href="https://discord.gg/pJxFqYP4Mq"
+          target="_blank">
+
+          DISCORD SERVER
+
+        </a>
+
+
+      </div>
+
+    </section>
+
+
+
+    <footer>
+
+      Faeron's Website
+
+    </footer>
+
   </div>
 
-  <div class="box">
-    <h1>FAERON</h1>
 
-    <p>
-      WELCOME to my website
-      <img src="https://html5-editor.net/tinymce/plugins/emoticons/img/smiley-cool.gif" alt="cool">
-    </p>
 
-    <div class="buttons">
-      <a class="button game" href="https://www.roblox.com/games/101294863351383" target="_blank">
-        My ROBLOX Game Archive
-      </a>
+  <script>
 
-      <span class="button disabled">
-        ???
-      </span>
-    </div>
+    function openTab(tabName, button) {
 
-    <div class="social-title">SOCIALS</div>
+      const tabs =
+        document.querySelectorAll(".tab");
 
-    <div class="buttons">
-      <a class="button" href="https://x.com/Faeron64" target="_blank">
-        <img src="https://cdn.simpleicons.org/x/000000" alt="Twitter icon">
-        Twitter
-      </a>
+      const buttons =
+        document.querySelectorAll(".tab-button");
 
-      <a class="button" href="https://youtube.com/@F4ER0N" target="_blank">
-        <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="YouTube icon">
-        YouTube
-      </a>
 
-      <a class="button" href="https://www.roblox.com/users/417428886/profile" target="_blank">
-        <img src="https://cdn.simpleicons.org/roblox/000000" alt="Roblox icon">
-        Roblox
-      </a>
+      tabs.forEach(tab => {
+        tab.classList.remove("active");
+      });
 
-      <a class="button" href="https://polytoria.com/u/Faeron" target="_blank">
-        <img class="polytoria-logo" src="https://cdn.polytoria.com/static/logo-new-dark-DkM6BZKO.webp" alt="Polytoria logo">
-      </a>
 
-      <a class="button" href="https://twitch.tv/faeron64" target="_blank">
-        <img src="https://cdn.simpleicons.org/twitch/9146FF" alt="Twitch icon">
-        Twitch
-      </a>
-    </div>
-  </div>
+      buttons.forEach(btn => {
+        btn.classList.remove("active");
+      });
+
+
+      document
+        .getElementById(tabName)
+        .classList
+        .add("active");
+
+
+      button.classList.add("active");
+
+    }
+
+  </script>
+
 </body>
 </html>
