@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Faeron's Homepage</title>
+
 <style>
 * {
     box-sizing: border-box;
@@ -11,105 +12,143 @@
 
 html,
 body {
+    margin: 0;
     min-height: 100%;
 }
 
 body {
-    margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     color: #000;
-    background-image: url("bggif");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    overflow-x: hidden;
 }
 
-.site-shell {
-    width: 780px;
-    max-width: calc(100% - 20px);
-    margin: 24px auto;
-    background: #c0c0c0;
-    border-top: 2px solid #ffffff;
-    border-left: 2px solid #ffffff;
-    border-right: 2px solid #000000;
-    border-bottom: 2px solid #000000;
-    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.6);
-    padding: 6px;
+#background-gif {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    z-index: -10;
+    pointer-events: none;
 }
 
-.header {
+.site {
+    width: 860px;
+    max-width: calc(100% - 24px);
+    margin: 95px auto 40px;
+    background: #d4d0c8;
+    border: 3px outset #eeeeee;
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.45);
+    position: relative;
+}
+
+.hat {
+    position: absolute;
+    width: 190px;
+    height: 120px;
+    left: 50%;
+    top: -94px;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.hat-crown {
+    position: absolute;
+    width: 120px;
+    height: 88px;
+    left: 35px;
+    top: 0;
+    background: #11121a;
+    border: 3px solid #000;
+    border-radius: 18px 18px 5px 5px;
+    overflow: hidden;
+}
+
+.hat-stripe {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 49px;
+    height: 19px;
+    background: white;
+    border-top: 2px solid #aaa;
+    border-bottom: 2px solid #aaa;
+}
+
+.hat-brim {
+    position: absolute;
+    width: 190px;
+    height: 25px;
+    left: 0;
+    bottom: 12px;
+    background: #11121a;
+    border: 3px solid #000;
+    border-radius: 50%;
+}
+
+.top {
     background: #ffffff;
-    border-top: 2px solid #808080;
-    border-left: 2px solid #808080;
-    border-right: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
     text-align: center;
-    padding: 24px 18px 18px;
+    padding: 34px 18px 20px;
+    border: 2px inset #eeeeee;
+    margin: 7px;
 }
 
-.header h1 {
+.top h1 {
     margin: 0;
     font-family: "Times New Roman", serif;
-    font-size: 44px;
+    font-size: 48px;
     color: #000080;
+    text-shadow: 2px 2px #c0c0c0;
 }
 
-.header p {
-    margin: 10px 0 0;
-    font-size: 14px;
+.top p {
+    margin: 8px 0 0;
 }
 
 marquee {
-    margin-top: 14px;
-    color: #ff0000;
+    margin-top: 16px;
     font-family: "Times New Roman", serif;
-    font-weight: bold;
     font-size: 20px;
+    font-weight: bold;
+    color: red;
 }
 
 .tabs {
     display: flex;
     flex-wrap: wrap;
-    gap: 0;
-    margin-top: 6px;
+    padding-left: 7px;
+    padding-right: 7px;
 }
 
 .tab-button {
-    padding: 8px 18px;
-    background: #c0c0c0;
-    color: #000;
-    border-top: 2px solid #ffffff;
-    border-left: 2px solid #ffffff;
-    border-right: 2px solid #000000;
-    border-bottom: 2px solid #000000;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
+    padding: 9px 22px;
+    background: #d4d0c8;
+    border: 3px outset #eeeeee;
     cursor: pointer;
 }
 
 .tab-button:hover {
-    background: #d4d0c8;
+    background: #eeeeee;
 }
 
 .tab-button.active {
-    background: #d4d0c8;
-    border-top: 2px solid #000000;
-    border-left: 2px solid #000000;
-    border-right: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
+    border: 3px inset #eeeeee;
+    background: white;
+    font-weight: bold;
 }
 
 .page {
     display: none;
-    margin-top: 0;
-    background: #ffffff;
-    border-top: 2px solid #808080;
-    border-left: 2px solid #808080;
-    border-right: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
-    padding: 20px;
+    margin: 0 7px 7px;
+    padding: 24px;
+    background: white;
+    border: 2px inset #eeeeee;
     min-height: 430px;
 }
 
@@ -118,91 +157,96 @@ marquee {
 }
 
 h2 {
-    margin-top: 0;
-    margin-bottom: 18px;
+    margin: 0 0 18px;
     font-family: "Times New Roman", serif;
-    font-size: 30px;
+    font-size: 32px;
     color: #000080;
 }
 
 a {
     color: #0000ee;
-    text-decoration: underline;
 }
 
 a:visited {
     color: #551a8b;
 }
 
-hr {
-    border: 0;
-    border-top: 1px solid #808080;
-    margin: 16px 0;
-}
-
-.welcome-box {
-    padding: 15px;
+.welcome {
     background: #eeeeee;
-    border-top: 2px solid #808080;
-    border-left: 2px solid #808080;
-    border-right: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
+    border: 2px inset #ffffff;
+    padding: 18px;
 }
 
-.site-news {
-    margin-top: 18px;
-    padding: 12px;
+.news {
+    margin-top: 20px;
+    padding: 13px;
     background: #ffffcc;
-    border-top: 2px solid #808080;
-    border-left: 2px solid #808080;
-    border-right: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
+    border: 2px inset #ffffff;
 }
 
-.game {
-    margin-bottom: 18px;
-    padding: 12px;
+.games-grid {
+    display: grid;
+    gap: 18px;
+}
+
+.game-card {
     background: #eeeeee;
-    border-top: 2px solid #ffffff;
-    border-left: 2px solid #ffffff;
-    border-right: 2px solid #808080;
-    border-bottom: 2px solid #808080;
+    border: 2px outset #ffffff;
+    padding: 16px;
 }
 
-.game h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
+.game-card h3 {
+    margin: 0 0 10px;
     font-family: "Times New Roman", serif;
-    font-size: 22px;
+    font-size: 24px;
+}
+
+.game-link {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 8px 18px;
+    background: #d4d0c8;
+    border: 3px outset #ffffff;
+    color: #000 !important;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.game-link:hover {
+    background: white;
+}
+
+.game-link:active {
+    border: 3px inset #ffffff;
+}
+
+.game-link.disabled {
+    color: #777 !important;
+    cursor: default;
 }
 
 #fanart-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 240px));
-    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    align-items: start;
     gap: 16px;
 }
 
 .fanart-item {
-    width: 240px;
+    background: #eeeeee;
+    border: 2px outset #ffffff;
     padding: 8px;
     text-align: center;
-    background: #eeeeee;
-    border-top: 2px solid #ffffff;
-    border-left: 2px solid #ffffff;
-    border-right: 2px solid #808080;
-    border-bottom: 2px solid #808080;
 }
 
 .fanart-item img {
     display: block;
-    margin: 0 auto;
-    width: auto;
-    max-width: 100%;
-    max-height: 340px;
+    width: 100%;
     height: auto;
-    background: #ffffff;
-    border: 1px solid #000000;
+    max-height: 420px;
+    object-fit: contain;
+    background: white;
+    border: 1px solid #555;
 }
 
 .artist {
@@ -211,70 +255,78 @@ hr {
 }
 
 .description {
-    margin-top: 5px;
-    color: #444444;
+    margin-top: 4px;
     font-family: "Times New Roman", serif;
     font-style: italic;
-    word-break: break-word;
+    color: #555;
 }
 
-.social-list {
-    width: 100%;
-    border-collapse: collapse;
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
 }
 
-.social-list td {
-    padding: 10px 8px;
-    border: 1px solid #808080;
-    vertical-align: middle;
-}
-
-.social-list tr:nth-child(even) {
-    background: #eeeeee;
-}
-
-.social-name {
+.social-card {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-weight: bold;
-}
-
-.social-name img {
-    width: 18px;
-    height: 18px;
-    object-fit: contain;
-}
-
-.social-button {
-    display: inline-block;
-    min-width: 110px;
-    padding: 5px 12px;
-    background: #c0c0c0;
-    color: black !important;
-    text-align: center;
+    gap: 13px;
+    min-height: 68px;
+    padding: 10px 14px;
+    background: #eeeeee;
+    border: 3px outset #ffffff;
+    color: #000 !important;
     text-decoration: none;
-    border-top: 2px solid #ffffff;
-    border-left: 2px solid #ffffff;
-    border-right: 2px solid #000000;
-    border-bottom: 2px solid #000000;
 }
 
-.social-button:active {
-    border-top: 2px solid #000000;
-    border-left: 2px solid #000000;
-    border-right: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
+.social-card:hover {
+    background: white;
 }
 
-@media (max-width: 600px) {
-    .site-shell {
-        margin: 8px auto;
-        max-width: calc(100% - 10px);
+.social-card:active {
+    border: 3px inset #ffffff;
+}
+
+.social-card img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.social-card .polytoria-logo {
+    width: 90px;
+    height: auto;
+}
+
+.social-text {
+    min-width: 0;
+}
+
+.social-title {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.social-subtitle {
+    margin-top: 3px;
+    color: #555;
+    font-size: 12px;
+}
+
+.divider {
+    border: 0;
+    border-top: 1px solid #999;
+    margin: 16px 0 20px;
+}
+
+@media (max-width: 620px) {
+    .site {
+        margin-top: 85px;
     }
 
-    .header h1 {
-        font-size: 32px;
+    .top h1 {
+        font-size: 34px;
     }
 
     .tab-button {
@@ -283,26 +335,38 @@ hr {
     }
 
     .page {
-        padding: 14px;
+        padding: 15px;
     }
 
-    .social-list td {
-        display: block;
-        width: 100%;
+    .social-grid {
+        grid-template-columns: 1fr;
     }
 
-    .social-list tr {
-        display: block;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #808080;
+    #fanart-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .hat {
+        transform: translateX(-50%) scale(0.85);
     }
 }
 </style>
 </head>
+
 <body>
 
-<div class="site-shell">
-    <div class="header">
+<img id="background-gif" src="bggif" alt="">
+
+<div class="site">
+
+    <div class="hat">
+        <div class="hat-crown">
+            <div class="hat-stripe"></div>
+        </div>
+        <div class="hat-brim"></div>
+    </div>
+
+    <div class="top">
         <h1>Faeron's Homepage</h1>
         <p>Welcome to my corner of the Internet!</p>
         <marquee>WELCOME TO MY WEBSITE</marquee>
@@ -316,130 +380,154 @@ hr {
     </div>
 
     <div id="home" class="page active">
+
         <h2>Welcome!</h2>
 
-        <div class="welcome-box">
+        <div class="welcome">
             <b>Hello!</b>
+
             <p>I'm Faeron and I make games.</p>
+
             <p>I mainly use Godot and Polytoria.</p>
+
             <p>You can find my games, fan art and social links here.</p>
         </div>
 
-        <div class="site-news">
+        <div class="news">
             <b>Site News:</b>
             <p>Welcome to the new website!</p>
         </div>
+
     </div>
 
     <div id="games" class="page">
+
         <h2>My Games</h2>
 
-        <div class="game">
-            <h3>Current Project</h3>
-            <p>I'm currently working on a new 3D platformer in Godot.</p>
-            <b>More information coming soon...</b>
+        <div class="games-grid">
+
+            <div class="game-card">
+                <h3>Current Project</h3>
+
+                <p>I'm currently working on a new 3D platformer in Godot.</p>
+
+                <span class="game-link disabled">
+                    COMING SOON
+                </span>
+            </div>
+
+            <div class="game-card">
+                <h3>ROBLOX Game Archive</h3>
+
+                <p>An archive of some of my older ROBLOX games.</p>
+
+                <a
+                    class="game-link"
+                    href="https://www.roblox.com/games/101294863351383"
+                    target="_blank">
+                    VISIT GAME ARCHIVE
+                </a>
+            </div>
+
         </div>
 
-        <div class="game">
-            <h3>ROBLOX Game Archive</h3>
-            <p>An archive of some of my older ROBLOX games.</p>
-            <a href="https://www.roblox.com/games/101294863351383" target="_blank">Visit Game Archive</a>
-        </div>
     </div>
 
     <div id="fanart" class="page">
+
         <h2>Fan Art</h2>
+
         <p>Art people have made for my games and characters!</p>
-        <hr>
-        <div id="fanart-grid">Loading fan art...</div>
+
+        <hr class="divider">
+
+        <div id="fanart-grid">
+            Loading fan art...
+        </div>
+
     </div>
 
     <div id="socials" class="page">
+
         <h2>Socials</h2>
+
         <p>Find me elsewhere on the Internet:</p>
 
-        <table class="social-list">
-            <tr>
-                <td>
-                    <div class="social-name">
-                        <img src="https://cdn.simpleicons.org/github/000000" alt="GitHub icon">
-                        GitHub
-                    </div>
-                </td>
-                <td><a class="social-button" href="https://github.com/Faeron64" target="_blank">Visit</a></td>
-            </tr>
+        <hr class="divider">
 
-            <tr>
-                <td>
-                    <div class="social-name">
-                        <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="YouTube icon">
-                        YouTube
-                    </div>
-                </td>
-                <td><a class="social-button" href="https://youtube.com/@F4ER0N" target="_blank">Visit</a></td>
-            </tr>
+        <div class="social-grid">
 
-            <tr>
-                <td>
-                    <div class="social-name">
-                        <img src="https://cdn.simpleicons.org/x/000000" alt="X icon">
-                        Twitter / X
-                    </div>
-                </td>
-                <td><a class="social-button" href="https://x.com/Faeron64" target="_blank">Visit</a></td>
-            </tr>
+            <a class="social-card" href="https://github.com/Faeron64" target="_blank">
+                <img src="https://cdn.simpleicons.org/github/000000" alt="">
+                <div class="social-text">
+                    <div class="social-title">GitHub</div>
+                    <div class="social-subtitle">Faeron64</div>
+                </div>
+            </a>
 
-            <tr>
-                <td>
-                    <div class="social-name">
-                        <img src="https://cdn.simpleicons.org/bluesky/0285FF" alt="Bluesky icon">
-                        Bluesky
-                    </div>
-                </td>
-                <td><a class="social-button" href="https://bsky.app/profile/faeron64.bsky.social" target="_blank">Visit</a></td>
-            </tr>
+            <a class="social-card" href="https://youtube.com/@F4ER0N" target="_blank">
+                <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="">
+                <div class="social-text">
+                    <div class="social-title">YouTube</div>
+                    <div class="social-subtitle">@F4ER0N</div>
+                </div>
+            </a>
 
-            <tr>
-                <td>
-                    <div class="social-name">
-                        <img src="https://cdn.simpleicons.org/twitch/9146FF" alt="Twitch icon">
-                        Twitch
-                    </div>
-                </td>
-                <td><a class="social-button" href="https://twitch.tv/faeron64" target="_blank">Visit</a></td>
-            </tr>
+            <a class="social-card" href="https://x.com/Faeron64" target="_blank">
+                <img src="https://cdn.simpleicons.org/x/000000" alt="">
+                <div class="social-text">
+                    <div class="social-title">Twitter / X</div>
+                    <div class="social-subtitle">@Faeron64</div>
+                </div>
+            </a>
 
-            <tr>
-                <td>
-                    <div class="social-name">
-                        <img src="https://cdn.simpleicons.org/roblox/000000" alt="Roblox icon">
-                        ROBLOX
-                    </div>
-                </td>
-                <td><a class="social-button" href="https://www.roblox.com/users/417428886/profile" target="_blank">Visit</a></td>
-            </tr>
+            <a class="social-card" href="https://bsky.app/profile/faeron64.bsky.social" target="_blank">
+                <img src="https://cdn.simpleicons.org/bluesky/0285FF" alt="">
+                <div class="social-text">
+                    <div class="social-title">Bluesky</div>
+                    <div class="social-subtitle">faeron64.bsky.social</div>
+                </div>
+            </a>
 
-            <tr>
-                <td>
-                    <div class="social-name">
-                        <img src="https://cdn.simpleicons.org/itchdotio/FA5C5C" alt="Itch.io icon">
-                        Polytoria
-                    </div>
-                </td>
-                <td><a class="social-button" href="https://polytoria.com/u/Faeron" target="_blank">Visit</a></td>
-            </tr>
+            <a class="social-card" href="https://twitch.tv/faeron64" target="_blank">
+                <img src="https://cdn.simpleicons.org/twitch/9146FF" alt="">
+                <div class="social-text">
+                    <div class="social-title">Twitch</div>
+                    <div class="social-subtitle">faeron64</div>
+                </div>
+            </a>
 
-            <tr>
-                <td>
-                    <div class="social-name">
-                        <img src="https://cdn.simpleicons.org/discord/5865F2" alt="Discord icon">
-                        Discord Server
-                    </div>
-                </td>
-                <td><a class="social-button" href="https://discord.gg/pJxFqYP4Mq" target="_blank">Join</a></td>
-            </tr>
-        </table>
+            <a class="social-card" href="https://www.roblox.com/users/417428886/profile" target="_blank">
+                <img src="https://cdn.simpleicons.org/roblox/000000" alt="">
+                <div class="social-text">
+                    <div class="social-title">ROBLOX</div>
+                    <div class="social-subtitle">F4ER0N</div>
+                </div>
+            </a>
+
+            <a class="social-card" href="https://polytoria.com/u/Faeron" target="_blank">
+                <img
+                    class="polytoria-logo"
+                    src="https://cdn.polytoria.com/static/logo-new-dark-DkM6BZKO.webp"
+                    alt="">
+                <div class="social-text">
+                    <div class="social-title">Polytoria</div>
+                    <div class="social-subtitle">Faeron</div>
+                </div>
+            </a>
+
+            <a class="social-card" href="https://discord.gg/pJxFqYP4Mq" target="_blank">
+                <img src="https://cdn.simpleicons.org/discord/5865F2" alt="">
+                <div class="social-text">
+                    <div class="social-title">Discord Server</div>
+                    <div class="social-subtitle">Join my server</div>
+                </div>
+            </a>
+
+        </div>
+
     </div>
+
 </div>
 
 <script>
@@ -482,6 +570,7 @@ async function loadFanArt() {
         }
 
         const data = await response.json();
+
         const imageExtensions = /\.(png|jpg|jpeg|gif|webp)$/i;
 
         const images = data.tree.filter(file =>
@@ -501,9 +590,10 @@ async function loadFanArt() {
             return;
         }
 
-        for (const file of images) {
+        images.forEach(file => {
             createFanArtCard(file.path, grid);
-        }
+        });
+
     } catch (error) {
         console.error(error);
         grid.innerHTML = "<p>Could not load fan art.</p>";
