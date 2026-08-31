@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Faeron's Homepage</title>
-
 <style>
 * {
     box-sizing: border-box;
@@ -21,7 +19,6 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     color: #000;
-
     background-image: url("bggif");
     background-size: cover;
     background-position: center;
@@ -29,143 +26,66 @@ body {
     background-attachment: fixed;
 }
 
-/* =========================
-   MAIN WINDOWS 98 WINDOW
-========================= */
-
-.window {
+.site-shell {
     width: 780px;
     max-width: calc(100% - 20px);
-    margin: 25px auto;
-
+    margin: 24px auto;
     background: #c0c0c0;
-
     border-top: 2px solid #ffffff;
     border-left: 2px solid #ffffff;
     border-right: 2px solid #000000;
     border-bottom: 2px solid #000000;
-
     box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.6);
+    padding: 6px;
 }
-
-/* =========================
-   TITLE BAR
-========================= */
-
-.titlebar {
-    height: 25px;
-    padding: 3px 4px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    background: #000080;
-    color: white;
-
-    font-weight: bold;
-}
-
-.window-buttons {
-    display: flex;
-    gap: 2px;
-}
-
-.window-button {
-    width: 18px;
-    height: 18px;
-
-    background: #c0c0c0;
-    color: black;
-
-    border-top: 2px solid #ffffff;
-    border-left: 2px solid #ffffff;
-    border-right: 2px solid #000000;
-    border-bottom: 2px solid #000000;
-
-    font-size: 11px;
-    font-weight: bold;
-    line-height: 12px;
-    text-align: center;
-}
-
-/* =========================
-   OLD MENU BAR
-========================= */
-
-.menu {
-    padding: 5px 8px;
-    background: #c0c0c0;
-    border-bottom: 1px solid #808080;
-}
-
-.menu span {
-    margin-right: 20px;
-}
-
-/* =========================
-   HEADER
-========================= */
 
 .header {
-    margin: 6px;
-    padding: 20px;
-
-    text-align: center;
-    background: white;
-
+    background: #ffffff;
     border-top: 2px solid #808080;
     border-left: 2px solid #808080;
     border-right: 2px solid #ffffff;
     border-bottom: 2px solid #ffffff;
+    text-align: center;
+    padding: 24px 18px 18px;
 }
 
 .header h1 {
     margin: 0;
-
     font-family: "Times New Roman", serif;
     font-size: 44px;
-
     color: #000080;
 }
 
 .header p {
-    margin-bottom: 0;
+    margin: 10px 0 0;
+    font-size: 14px;
 }
 
 marquee {
-    margin-top: 15px;
-
-    color: red;
+    margin-top: 14px;
+    color: #ff0000;
     font-family: "Times New Roman", serif;
     font-weight: bold;
+    font-size: 20px;
 }
-
-/* =========================
-   TABS
-========================= */
 
 .tabs {
     display: flex;
     flex-wrap: wrap;
-
-    margin: 6px 6px 0;
+    gap: 0;
+    margin-top: 6px;
 }
 
 .tab-button {
-    padding: 7px 16px;
-
+    padding: 8px 18px;
     background: #c0c0c0;
-    color: black;
-
+    color: #000;
     border-top: 2px solid #ffffff;
     border-left: 2px solid #ffffff;
     border-right: 2px solid #000000;
     border-bottom: 2px solid #000000;
-
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
-
+    font-size: 14px;
     cursor: pointer;
 }
 
@@ -174,31 +94,23 @@ marquee {
 }
 
 .tab-button.active {
+    background: #d4d0c8;
     border-top: 2px solid #000000;
     border-left: 2px solid #000000;
     border-right: 2px solid #ffffff;
     border-bottom: 2px solid #ffffff;
-
-    background: #d4d0c8;
 }
-
-/* =========================
-   PAGES
-========================= */
 
 .page {
     display: none;
-
-    min-height: 430px;
-    margin: 0 6px 6px;
-    padding: 20px;
-
-    background: white;
-
+    margin-top: 0;
+    background: #ffffff;
     border-top: 2px solid #808080;
     border-left: 2px solid #808080;
     border-right: 2px solid #ffffff;
     border-bottom: 2px solid #ffffff;
+    padding: 20px;
+    min-height: 430px;
 }
 
 .page.active {
@@ -207,10 +119,9 @@ marquee {
 
 h2 {
     margin-top: 0;
-
+    margin-bottom: 18px;
     font-family: "Times New Roman", serif;
-    font-size: 28px;
-
+    font-size: 30px;
     color: #000080;
 }
 
@@ -226,17 +137,12 @@ a:visited {
 hr {
     border: 0;
     border-top: 1px solid #808080;
+    margin: 16px 0;
 }
-
-/* =========================
-   HOME
-========================= */
 
 .welcome-box {
     padding: 15px;
-
     background: #eeeeee;
-
     border-top: 2px solid #808080;
     border-left: 2px solid #808080;
     border-right: 2px solid #ffffff;
@@ -245,26 +151,18 @@ hr {
 
 .site-news {
     margin-top: 18px;
-    padding: 10px;
-
+    padding: 12px;
     background: #ffffcc;
-
     border-top: 2px solid #808080;
     border-left: 2px solid #808080;
     border-right: 2px solid #ffffff;
     border-bottom: 2px solid #ffffff;
 }
 
-/* =========================
-   GAMES
-========================= */
-
 .game {
     margin-bottom: 18px;
     padding: 12px;
-
     background: #eeeeee;
-
     border-top: 2px solid #ffffff;
     border-left: 2px solid #ffffff;
     border-right: 2px solid #808080;
@@ -273,27 +171,23 @@ hr {
 
 .game h3 {
     margin-top: 0;
-
+    margin-bottom: 10px;
     font-family: "Times New Roman", serif;
     font-size: 22px;
 }
 
-/* =========================
-   FAN ART
-========================= */
-
 #fanart-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 240px));
+    justify-content: center;
+    gap: 16px;
 }
 
 .fanart-item {
-    padding: 7px;
-
+    width: 240px;
+    padding: 8px;
     text-align: center;
     background: #eeeeee;
-
     border-top: 2px solid #ffffff;
     border-left: 2px solid #ffffff;
     border-right: 2px solid #808080;
@@ -301,32 +195,28 @@ hr {
 }
 
 .fanart-item img {
-    width: 100%;
-    max-height: 320px;
-
-    object-fit: contain;
-
-    background: white;
-    border: 1px solid black;
+    display: block;
+    margin: 0 auto;
+    width: auto;
+    max-width: 100%;
+    max-height: 340px;
+    height: auto;
+    background: #ffffff;
+    border: 1px solid #000000;
 }
 
 .artist {
-    margin-top: 7px;
+    margin-top: 8px;
     font-weight: bold;
 }
 
 .description {
-    margin-top: 4px;
-
-    color: #444;
-
+    margin-top: 5px;
+    color: #444444;
     font-family: "Times New Roman", serif;
     font-style: italic;
+    word-break: break-word;
 }
-
-/* =========================
-   SOCIALS
-========================= */
 
 .social-list {
     width: 100%;
@@ -334,26 +224,36 @@ hr {
 }
 
 .social-list td {
-    padding: 8px;
+    padding: 10px 8px;
     border: 1px solid #808080;
+    vertical-align: middle;
 }
 
 .social-list tr:nth-child(even) {
     background: #eeeeee;
 }
 
+.social-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+.social-name img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
 .social-button {
     display: inline-block;
-
     min-width: 110px;
     padding: 5px 12px;
-
     background: #c0c0c0;
     color: black !important;
-
     text-align: center;
     text-decoration: none;
-
     border-top: 2px solid #ffffff;
     border-left: 2px solid #ffffff;
     border-right: 2px solid #000000;
@@ -367,35 +267,10 @@ hr {
     border-bottom: 2px solid #ffffff;
 }
 
-/* =========================
-   STATUS BAR
-========================= */
-
-.statusbar {
-    display: flex;
-    gap: 4px;
-    padding: 4px;
-}
-
-.status-box {
-    flex: 1;
-    padding: 4px;
-
-    border-top: 2px solid #808080;
-    border-left: 2px solid #808080;
-    border-right: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
-
-    font-size: 12px;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
 @media (max-width: 600px) {
-    .window {
+    .site-shell {
         margin: 8px auto;
+        max-width: calc(100% - 10px);
     }
 
     .header h1 {
@@ -408,301 +283,167 @@ hr {
     }
 
     .page {
-        padding: 13px;
+        padding: 14px;
+    }
+
+    .social-list td {
+        display: block;
+        width: 100%;
+    }
+
+    .social-list tr {
+        display: block;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #808080;
     }
 }
 </style>
 </head>
-
 <body>
 
-<div class="window">
-
-    <!-- TITLE BAR -->
-    <div class="titlebar">
-        <div>
-            Faeron's Homepage - Microsoft Internet Explorer
-        </div>
-
-        <div class="window-buttons">
-            <div class="window-button">_</div>
-            <div class="window-button">□</div>
-            <div class="window-button">X</div>
-        </div>
-    </div>
-
-    <!-- MENU -->
-    <div class="menu">
-        <span><u>F</u>ile</span>
-        <span><u>E</u>dit</span>
-        <span><u>V</u>iew</span>
-        <span><u>F</u>avorites</span>
-        <span><u>H</u>elp</span>
-    </div>
-
-    <!-- HEADER -->
+<div class="site-shell">
     <div class="header">
         <h1>Faeron's Homepage</h1>
-
-        <p>
-            Welcome to my corner of the Internet!
-        </p>
-
-        <marquee>
-            *** INDIE GAME DEVELOPER *** GODOT *** POLYTORIA *** GAMES *** COOL STUFF ***
-        </marquee>
+        <p>Welcome to my corner of the Internet!</p>
+        <marquee>WELCOME TO MY WEBSITE</marquee>
     </div>
 
-    <!-- TABS -->
     <div class="tabs">
-
-        <button
-            class="tab-button active"
-            onclick="openPage('home', this)">
-            Home
-        </button>
-
-        <button
-            class="tab-button"
-            onclick="openPage('games', this)">
-            Games
-        </button>
-
-        <button
-            class="tab-button"
-            onclick="openPage('fanart', this)">
-            Fan Art
-        </button>
-
-        <button
-            class="tab-button"
-            onclick="openPage('socials', this)">
-            Socials
-        </button>
-
+        <button class="tab-button active" onclick="openPage('home', this)">Home</button>
+        <button class="tab-button" onclick="openPage('games', this)">Games</button>
+        <button class="tab-button" onclick="openPage('fanart', this)">Fan Art</button>
+        <button class="tab-button" onclick="openPage('socials', this)">Socials</button>
     </div>
 
-    <!-- HOME -->
     <div id="home" class="page active">
-
         <h2>Welcome!</h2>
 
         <div class="welcome-box">
-
             <b>Hello!</b>
-
-            <p>
-                I'm Faeron and I make games.
-            </p>
-
-            <p>
-                I mainly use Godot and Polytoria.
-            </p>
-
-            <p>
-                You can find my games, fan art and social links here.
-            </p>
-
+            <p>I'm Faeron and I make games.</p>
+            <p>I mainly use Godot and Polytoria.</p>
+            <p>You can find my games, fan art and social links here.</p>
         </div>
 
         <div class="site-news">
-
             <b>Site News:</b>
-
-            <p>
-                Welcome to the new website!
-            </p>
-
+            <p>Welcome to the new website!</p>
         </div>
-
     </div>
 
-    <!-- GAMES -->
     <div id="games" class="page">
-
         <h2>My Games</h2>
 
         <div class="game">
-
             <h3>Current Project</h3>
-
-            <p>
-                I'm currently working on a new 3D platformer in Godot.
-            </p>
-
+            <p>I'm currently working on a new 3D platformer in Godot.</p>
             <b>More information coming soon...</b>
-
         </div>
 
         <div class="game">
-
             <h3>ROBLOX Game Archive</h3>
-
-            <p>
-                An archive of some of my older ROBLOX games.
-            </p>
-
-            <a
-                href="https://www.roblox.com/games/101294863351383"
-                target="_blank">
-                Visit Game Archive
-            </a>
-
+            <p>An archive of some of my older ROBLOX games.</p>
+            <a href="https://www.roblox.com/games/101294863351383" target="_blank">Visit Game Archive</a>
         </div>
-
     </div>
 
-    <!-- FAN ART -->
     <div id="fanart" class="page">
-
         <h2>Fan Art</h2>
-
-        <p>
-            Art people have made for my games and characters!
-        </p>
-
+        <p>Art people have made for my games and characters!</p>
         <hr>
-
-        <div id="fanart-grid">
-            Loading fan art...
-        </div>
-
+        <div id="fanart-grid">Loading fan art...</div>
     </div>
 
-    <!-- SOCIALS -->
     <div id="socials" class="page">
-
         <h2>Socials</h2>
-
-        <p>
-            Find me elsewhere on the Internet:
-        </p>
+        <p>Find me elsewhere on the Internet:</p>
 
         <table class="social-list">
-
             <tr>
-                <td>GitHub</td>
                 <td>
-                    <a
-                        class="social-button"
-                        href="https://github.com/Faeron64"
-                        target="_blank">
-                        Visit
-                    </a>
+                    <div class="social-name">
+                        <img src="https://cdn.simpleicons.org/github/000000" alt="GitHub icon">
+                        GitHub
+                    </div>
                 </td>
+                <td><a class="social-button" href="https://github.com/Faeron64" target="_blank">Visit</a></td>
             </tr>
 
             <tr>
-                <td>YouTube</td>
                 <td>
-                    <a
-                        class="social-button"
-                        href="https://youtube.com/@F4ER0N"
-                        target="_blank">
-                        Visit
-                    </a>
+                    <div class="social-name">
+                        <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="YouTube icon">
+                        YouTube
+                    </div>
                 </td>
+                <td><a class="social-button" href="https://youtube.com/@F4ER0N" target="_blank">Visit</a></td>
             </tr>
 
             <tr>
-                <td>Twitter / X</td>
                 <td>
-                    <a
-                        class="social-button"
-                        href="https://x.com/Faeron64"
-                        target="_blank">
-                        Visit
-                    </a>
+                    <div class="social-name">
+                        <img src="https://cdn.simpleicons.org/x/000000" alt="X icon">
+                        Twitter / X
+                    </div>
                 </td>
+                <td><a class="social-button" href="https://x.com/Faeron64" target="_blank">Visit</a></td>
             </tr>
 
             <tr>
-                <td>Bluesky</td>
                 <td>
-                    <a
-                        class="social-button"
-                        href="https://bsky.app/profile/faeron64.bsky.social"
-                        target="_blank">
-                        Visit
-                    </a>
+                    <div class="social-name">
+                        <img src="https://cdn.simpleicons.org/bluesky/0285FF" alt="Bluesky icon">
+                        Bluesky
+                    </div>
                 </td>
+                <td><a class="social-button" href="https://bsky.app/profile/faeron64.bsky.social" target="_blank">Visit</a></td>
             </tr>
 
             <tr>
-                <td>Twitch</td>
                 <td>
-                    <a
-                        class="social-button"
-                        href="https://twitch.tv/faeron64"
-                        target="_blank">
-                        Visit
-                    </a>
+                    <div class="social-name">
+                        <img src="https://cdn.simpleicons.org/twitch/9146FF" alt="Twitch icon">
+                        Twitch
+                    </div>
                 </td>
+                <td><a class="social-button" href="https://twitch.tv/faeron64" target="_blank">Visit</a></td>
             </tr>
 
             <tr>
-                <td>ROBLOX</td>
                 <td>
-                    <a
-                        class="social-button"
-                        href="https://www.roblox.com/users/417428886/profile"
-                        target="_blank">
-                        Visit
-                    </a>
+                    <div class="social-name">
+                        <img src="https://cdn.simpleicons.org/roblox/000000" alt="Roblox icon">
+                        ROBLOX
+                    </div>
                 </td>
+                <td><a class="social-button" href="https://www.roblox.com/users/417428886/profile" target="_blank">Visit</a></td>
             </tr>
 
             <tr>
-                <td>Polytoria</td>
                 <td>
-                    <a
-                        class="social-button"
-                        href="https://polytoria.com/u/Faeron"
-                        target="_blank">
-                        Visit
-                    </a>
+                    <div class="social-name">
+                        <img src="https://cdn.simpleicons.org/itchdotio/FA5C5C" alt="Itch.io icon">
+                        Polytoria
+                    </div>
                 </td>
+                <td><a class="social-button" href="https://polytoria.com/u/Faeron" target="_blank">Visit</a></td>
             </tr>
 
             <tr>
-                <td>Discord Server</td>
                 <td>
-                    <a
-                        class="social-button"
-                        href="https://discord.gg/pJxFqYP4Mq"
-                        target="_blank">
-                        Join
-                    </a>
+                    <div class="social-name">
+                        <img src="https://cdn.simpleicons.org/discord/5865F2" alt="Discord icon">
+                        Discord Server
+                    </div>
                 </td>
+                <td><a class="social-button" href="https://discord.gg/pJxFqYP4Mq" target="_blank">Join</a></td>
             </tr>
-
         </table>
-
     </div>
-
-    <!-- STATUS BAR -->
-    <div class="statusbar">
-
-        <div class="status-box">
-            Done
-        </div>
-
-        <div class="status-box">
-            Internet
-        </div>
-
-    </div>
-
 </div>
 
 <script>
-
-/* =========================
-   PAGE TABS
-========================= */
-
 function openPage(pageName, button) {
-
     const pages = document.querySelectorAll(".page");
     const buttons = document.querySelectorAll(".tab-button");
 
@@ -714,37 +455,26 @@ function openPage(pageName, button) {
         btn.classList.remove("active");
     });
 
-    document
-        .getElementById(pageName)
-        .classList
-        .add("active");
-
+    document.getElementById(pageName).classList.add("active");
     button.classList.add("active");
 }
-
-
-/* =========================
-   AUTOMATIC FAN ART
-========================= */
 
 const repoOwner = "Faeron64";
 const repoName = "Faeron";
 const branch = "main";
 
 async function loadFanArt() {
-
     const grid = document.getElementById("fanart-grid");
 
     try {
-
         const response = await fetch(
-            "https://api.github.com/repos/"
-            + repoOwner
-            + "/"
-            + repoName
-            + "/git/trees/"
-            + branch
-            + "?recursive=1"
+            "https://api.github.com/repos/" +
+            repoOwner +
+            "/" +
+            repoName +
+            "/git/trees/" +
+            branch +
+            "?recursive=1"
         );
 
         if (!response.ok) {
@@ -752,23 +482,16 @@ async function loadFanArt() {
         }
 
         const data = await response.json();
-
         const imageExtensions = /\.(png|jpg|jpeg|gif|webp)$/i;
 
         const images = data.tree.filter(file =>
-            file.type === "blob"
-            &&
-            file.path.startsWith("fanart/")
-            &&
+            file.type === "blob" &&
+            file.path.startsWith("fanart/") &&
             imageExtensions.test(file.path)
         );
 
         images.sort((a, b) =>
-            a.path.localeCompare(
-                b.path,
-                undefined,
-                { numeric: true }
-            )
+            a.path.localeCompare(b.path, undefined, { numeric: true })
         );
 
         grid.innerHTML = "";
@@ -781,147 +504,59 @@ async function loadFanArt() {
         for (const file of images) {
             createFanArtCard(file.path, grid);
         }
-
     } catch (error) {
-
         console.error(error);
-
-        grid.innerHTML =
-            "<p>Could not load fan art.</p>";
+        grid.innerHTML = "<p>Could not load fan art.</p>";
     }
 }
 
-
 function createFanArtCard(path, grid) {
-
-    /*
-        EXAMPLES:
-
-        fanart/Sam.png
-
-        = Art by Sam
-
-
-        fanart/Sam_1.png
-
-        = Art by Sam
-
-
-        fanart/Sam_2.png
-
-        = Art by Sam
-
-
-        fanart/Sam_1/Cool drawing.png
-
-        = Art by Sam
-          Cool drawing
-    */
-
-    const relativePath =
-        path.substring("fanart/".length);
-
-    const pieces =
-        relativePath.split("/");
+    const relativePath = path.substring("fanart/".length);
+    const pieces = relativePath.split("/");
 
     let artist = "";
     let description = "";
 
     if (pieces.length === 1) {
-
-        artist =
-            removeExtension(pieces[0]);
-
+        artist = removeExtension(pieces[0]);
     } else {
-
-        artist =
-            pieces[0];
-
-        description =
-            removeExtension(
-                pieces[pieces.length - 1]
-            );
+        artist = pieces[0];
+        description = removeExtension(pieces[pieces.length - 1]);
     }
 
-    /*
-        Removes ending numbers:
+    artist = artist.replace(/_\d+$/, "");
+    artist = artist.replace(/_/g, " ");
+    description = description.replace(/_/g, " ");
 
-        Sam_1 -> Sam
-        Sam_2 -> Sam
-        Sam_12 -> Sam
-    */
+    const card = document.createElement("div");
+    card.className = "fanart-item";
 
-    artist =
-        artist.replace(/_\d+$/, "");
+    const image = document.createElement("img");
+    image.src = encodeURI(path);
+    image.alt = "Fan art by " + artist;
 
-    /*
-        Makes underscores display as spaces.
-
-        Cool_Artist -> Cool Artist
-    */
-
-    artist =
-        artist.replace(/_/g, " ");
-
-    description =
-        description.replace(/_/g, " ");
-
-    const card =
-        document.createElement("div");
-
-    card.className =
-        "fanart-item";
-
-    const image =
-        document.createElement("img");
-
-    image.src =
-        encodeURI(path);
-
-    image.alt =
-        "Fan art by " + artist;
-
-    const artistText =
-        document.createElement("div");
-
-    artistText.className =
-        "artist";
-
-    artistText.textContent =
-        "Art by " + artist;
+    const artistText = document.createElement("div");
+    artistText.className = "artist";
+    artistText.textContent = "Art by " + artist;
 
     card.appendChild(image);
     card.appendChild(artistText);
 
     if (description !== "") {
-
-        const descriptionText =
-            document.createElement("div");
-
-        descriptionText.className =
-            "description";
-
-        descriptionText.textContent =
-            description;
-
+        const descriptionText = document.createElement("div");
+        descriptionText.className = "description";
+        descriptionText.textContent = description;
         card.appendChild(descriptionText);
     }
 
     grid.appendChild(card);
 }
 
-
 function removeExtension(filename) {
-
-    return filename.replace(
-        /\.[^/.]+$/,
-        ""
-    );
+    return filename.replace(/\.[^/.]+$/, "");
 }
 
-
 loadFanArt();
-
 </script>
 
 </body>
