@@ -51,7 +51,7 @@ body {
 
 .hat {
     position: absolute;
-    width: calc(100% + 85px);
+    width: 100%;
     height: 82px;
     left: 50%;
     top: -82px;
@@ -61,9 +61,9 @@ body {
 
 .hat-crown {
     position: absolute;
-    width: 88%;
+    width: 100%;
     height: 64px;
-    left: 6%;
+    left: 0;
     top: 0;
     background: #111116;
     border: 3px solid #000000;
@@ -82,9 +82,9 @@ body {
 
 .hat-brim {
     position: absolute;
-    width: 100%;
+    width: calc(100% + 85px);
     height: 21px;
-    left: 0;
+    left: -42.5px;
     bottom: 0;
     background: #111116;
     border: 3px solid #000000;
@@ -198,7 +198,7 @@ a:visited {
 .news-box {
     margin-top: 20px;
     padding: 13px;
-    background: #ffffcc;
+    background: #dfe9f5;
     border-top: 2px solid #808080;
     border-left: 2px solid #808080;
     border-right: 2px solid #ffffff;
@@ -343,13 +343,24 @@ a:visited {
     font-size: 12px;
 }
 
+.music-empty {
+    padding: 20px;
+    background: #eeeeee;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    font-size: 16px;
+}
+
 @media (max-width: 700px) {
     .site {
         margin-top: 80px;
     }
 
-    .hat {
+    .hat-brim {
         width: calc(100% + 35px);
+        left: -17.5px;
     }
 
     .header h1 {
@@ -362,7 +373,7 @@ a:visited {
 
     .tab-button {
         flex: 1;
-        min-width: 50%;
+        min-width: 33.333%;
     }
 
     #fanart-grid {
@@ -377,6 +388,10 @@ a:visited {
 @media (max-width: 430px) {
     #fanart-grid {
         column-count: 1;
+    }
+
+    .tab-button {
+        min-width: 50%;
     }
 }
 </style>
@@ -398,13 +413,14 @@ a:visited {
     <div class="header">
         <h1>Faeron's Homepage</h1>
         <div class="header-subtitle">My games, projects, fan art and links.</div>
-        <marquee>WELCOME TO MY WEBSITE</marquee>
+        <marquee>WELCOME TO MY WEBSITE, WHERE YOU CAN SEE THINGS!</marquee>
     </div>
 
     <div class="tabs">
         <button class="tab-button active" onclick="openPage('home', this)">Home</button>
         <button class="tab-button" onclick="openPage('games', this)">Games</button>
         <button class="tab-button" onclick="openPage('fanart', this)">Fan Art</button>
+        <button class="tab-button" onclick="openPage('music', this)">Music</button>
         <button class="tab-button" onclick="openPage('socials', this)">Socials</button>
     </div>
 
@@ -468,6 +484,14 @@ a:visited {
     <div id="fanart" class="page">
         <h2>Fan Art</h2>
         <div id="fanart-grid">Loading fan art...</div>
+    </div>
+
+    <div id="music" class="page">
+        <h2>Music</h2>
+
+        <div class="music-empty">
+            Nothing here yet! More coming soon.
+        </div>
     </div>
 
     <div id="socials" class="page">
