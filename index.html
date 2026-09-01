@@ -101,44 +101,73 @@ body {
 
 .header {
     position: relative;
-    min-height: 168px;
+    height: 112px;
+    min-height: 112px;
     background: #ffffff;
     margin: 7px 7px 0;
-    padding: 32px 20px 18px;
+    padding: 0 145px 0 118px;
     border-top: 2px solid #808080;
     border-left: 2px solid #808080;
     border-right: 2px solid #ffffff;
     border-bottom: 2px solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    overflow: hidden;
 }
 
 .header h1 {
     margin: 0;
     font-family: "Times New Roman", serif;
-    font-size: 46px;
+    font-size: 43px;
     color: #000080;
     text-shadow: 2px 2px #c0c0c0;
 }
 
-.header-subtitle {
-    margin-top: 7px;
-    font-size: 13px;
-}
-
-marquee {
-    margin-top: 14px;
-    color: #000000;
-    font-family: "Times New Roman", serif;
-    font-size: 19px;
-    font-weight: bold;
-}
-
-.dark-mode-toggle {
+.header-character {
     position: absolute;
-    top: 10px;
+    left: 0;
+    top: 0;
+    width: 108px;
+    height: 108px;
+    padding: 0;
+    overflow: hidden;
+    background: #c0c0c0;
+    border: 0;
+    border-right: 2px solid #808080;
+    cursor: pointer;
+}
+
+.header-character:active {
+    border-right-color: #404040;
+}
+
+.header-character img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    user-select: none;
+    pointer-events: none;
+}
+
+.header-settings {
+    position: absolute;
     right: 10px;
-    min-width: 105px;
-    padding: 7px 10px;
+    top: 10px;
+    width: 108px;
+    display: grid;
+    gap: 6px;
+}
+
+.dark-mode-toggle,
+.background-color-toggle {
+    width: 108px;
+    min-width: 108px;
+    padding: 7px 7px;
     background: #c0c0c0;
     border-top: 2px solid #ffffff;
     border-left: 2px solid #ffffff;
@@ -146,12 +175,13 @@ marquee {
     border-bottom: 2px solid #404040;
     color: #000000;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
     cursor: pointer;
 }
 
-.dark-mode-toggle:active {
+.dark-mode-toggle:active,
+.background-color-toggle:active {
     border-top: 2px solid #404040;
     border-left: 2px solid #404040;
     border-right: 2px solid #ffffff;
@@ -451,6 +481,7 @@ body.dark-mode marquee {
 }
 
 body.dark-mode .dark-mode-toggle,
+body.dark-mode .background-color-toggle,
 body.dark-mode .tab-button,
 body.dark-mode .game-link {
     background: #303030;
@@ -462,6 +493,7 @@ body.dark-mode .game-link {
 }
 
 body.dark-mode .dark-mode-toggle:active,
+body.dark-mode .background-color-toggle:active,
 body.dark-mode .tab-button.active,
 body.dark-mode .game-link:active {
     border-top-color: #080808;
@@ -538,6 +570,11 @@ body.dark-mode .game-link.disabled {
     color: #888888 !important;
 }
 
+
+body.dark-mode .header-character img {
+    filter: none;
+}
+
 /* Fan art itself is NOT inverted or darkened. */
 body.dark-mode .fanart-item img,
 body.dark-mode .sneakpeak-item img {
@@ -596,16 +633,34 @@ body.dark-mode .online-counter {
         left: -17.5px;
     }
 
-    .header h1 {
-        font-size: 34px;
+    .header {
+        height: 96px;
+        min-height: 96px;
+        padding: 0 104px 0 90px;
     }
 
-    .dark-mode-toggle {
-        top: 8px;
-        right: 8px;
+    .header h1 {
+        font-size: 31px;
+    }
+
+    .header-character {
+        width: 92px;
+        height: 92px;
+    }
+
+    .header-settings {
+        top: 7px;
+        right: 7px;
+        width: 92px;
+        gap: 4px;
+    }
+
+    .dark-mode-toggle,
+    .background-color-toggle {
+        width: 92px;
         min-width: 92px;
-        padding: 6px 8px;
-        font-size: 11px;
+        padding: 5px 4px;
+        font-size: 10px;
     }
 
     .tabs {
@@ -638,7 +693,7 @@ body.dark-mode .online-counter {
     }
 
     .header {
-        padding-top: 50px;
+        padding-top: 0;
     }
 }
 
@@ -1140,13 +1195,20 @@ body.dark-mode .paint98-dialog-title {
     </div>
 
     <div class="header">
-        <button id="dark-mode-toggle" class="dark-mode-toggle" type="button" onclick="toggleDarkMode()">
-            Dark Mode
+        <button id="header-character" class="header-character" type="button" title="Faeron">
+            <img id="header-character-image" src="Assets/faeronidle.png" alt="Faeron">
         </button>
 
         <h1>Faeron's Homepage</h1>
-        <div class="header-subtitle">My games, projects, fan art and links.</div>
-        <marquee>WELCOME TO MY WEBSITE, WHERE YOU CAN CLICK THINGS! ^_^</marquee>
+
+        <div class="header-settings">
+            <button id="dark-mode-toggle" class="dark-mode-toggle" type="button" onclick="toggleDarkMode()">
+                Dark Mode
+            </button>
+            <button id="background-color-toggle" class="background-color-toggle" type="button" onclick="toggleBackgroundColors()">
+                BG Colors: On
+            </button>
+        </div>
     </div>
 
     <div class="tabs">
@@ -1154,7 +1216,6 @@ body.dark-mode .paint98-dialog-title {
         <button class="tab-button" onclick="openPage('games', this)">Games</button>
         <button class="tab-button" onclick="openPage('fanart', this)">Fan Art</button>
         <button class="tab-button" onclick="openPage('sneakpeaks', this)">Sneak Peaks</button>
-        <button class="tab-button" onclick="openPage('music', this)">Music</button>
         <button class="tab-button" onclick="openPage('paint', this)">Paint</button>
         <button class="tab-button" onclick="openPage('socials', this)">Socials</button>
     </div>
@@ -2517,12 +2578,43 @@ const tabBackgroundTints = {
     socials: "rgba(220, 190, 255, 0.24)"
 };
 
+let currentPageName = "home";
+let backgroundColorsEnabled = localStorage.getItem("faeron-bg-colors") !== "off";
+
+function updateBackgroundColorButton() {
+    const button = document.getElementById("background-color-toggle");
+    if (!button) return;
+
+    button.textContent = backgroundColorsEnabled
+        ? "BG Colors: On"
+        : "BG Colors: Off";
+}
+
 function setBackgroundTint(pageName) {
     const tint = document.getElementById("background-tint");
     if (!tint) return;
 
+    currentPageName = pageName;
+
+    if (!backgroundColorsEnabled) {
+        tint.style.backgroundColor = "rgba(255, 255, 255, 0)";
+        return;
+    }
+
     tint.style.backgroundColor =
         tabBackgroundTints[pageName] || tabBackgroundTints.home;
+}
+
+function toggleBackgroundColors() {
+    backgroundColorsEnabled = !backgroundColorsEnabled;
+
+    localStorage.setItem(
+        "faeron-bg-colors",
+        backgroundColorsEnabled ? "on" : "off"
+    );
+
+    updateBackgroundColorButton();
+    setBackgroundTint(currentPageName);
 }
 
 function openPage(pageName, button) {
@@ -2540,6 +2632,7 @@ function openPage(pageName, button) {
     setBackgroundTint(pageName);
 }
 
+updateBackgroundColorButton();
 setBackgroundTint("home");
 
 function updateDarkModeButton() {
@@ -2571,6 +2664,26 @@ if (savedTheme === "dark") {
 }
 
 updateDarkModeButton();
+
+
+const headerCharacter = document.getElementById("header-character");
+const headerCharacterImage = document.getElementById("header-character-image");
+let headerCharacterTimer = null;
+
+if (headerCharacter && headerCharacterImage) {
+    headerCharacter.addEventListener("click", () => {
+        headerCharacterImage.src = "Assets/faeronnotice.png";
+
+        if (headerCharacterTimer !== null) {
+            clearTimeout(headerCharacterTimer);
+        }
+
+        headerCharacterTimer = setTimeout(() => {
+            headerCharacterImage.src = "Assets/faeronidle.png";
+            headerCharacterTimer = null;
+        }, 1000);
+    });
+}
 
 async function loadAboutMe() {
     const aboutMe = document.getElementById("aboutme-text");
