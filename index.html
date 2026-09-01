@@ -620,6 +620,487 @@ body.dark-mode .online-counter {
         padding-top: 50px;
     }
 }
+
+
+/* Paint tab: classic grey Microsoft Paint look, integrated with the site */
+#paint {
+    padding: 10px;
+    overflow: hidden;
+}
+
+.paint-scroll-shell {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.paint98 {
+    --paint-face: #bdbdbd;
+    --paint-panel: #d8d8d8;
+    --paint-light: #f4f4f4;
+    --paint-mid: #8a8a8a;
+    --paint-dark: #4a4a4a;
+    --paint-text: #000000;
+    --paint-work: #777777;
+    --paint-menu-hover: #000080;
+    --paint-menu-hover-text: #ffffff;
+
+    min-width: 760px;
+    width: 100%;
+    background: var(--paint-face);
+    color: var(--paint-text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    border-top: 2px solid var(--paint-light);
+    border-left: 2px solid var(--paint-light);
+    border-right: 2px solid var(--paint-dark);
+    border-bottom: 2px solid var(--paint-dark);
+}
+
+body.dark-mode .paint98 {
+    --paint-face: #4a4a4a;
+    --paint-panel: #3d3d3d;
+    --paint-light: #777777;
+    --paint-mid: #292929;
+    --paint-dark: #171717;
+    --paint-text: #f0f0f0;
+    --paint-work: #303030;
+    --paint-menu-hover: #6f79c9;
+    --paint-menu-hover-text: #ffffff;
+}
+
+.paint98-menurow {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    height: 28px;
+    padding-left: 2px;
+    background: var(--paint-face);
+    border-top: 2px solid var(--paint-light);
+    border-left: 2px solid var(--paint-light);
+    border-right: 2px solid var(--paint-dark);
+    border-bottom: 2px solid var(--paint-dark);
+    z-index: 30;
+}
+
+.paint98-menu-button {
+    padding: 3px 10px;
+    border: 0;
+    background: transparent;
+    color: var(--paint-text);
+    font: 12px Arial, Helvetica, sans-serif;
+    cursor: default;
+}
+
+.paint98-menu-button:hover,
+.paint98-menu-button.open {
+    background: var(--paint-menu-hover);
+    color: var(--paint-menu-hover-text);
+}
+
+.paint98-menu {
+    position: absolute;
+    top: 25px;
+    display: none;
+    min-width: 190px;
+    padding: 2px;
+    background: var(--paint-panel);
+    color: var(--paint-text);
+    border-top: 2px solid var(--paint-light);
+    border-left: 2px solid var(--paint-light);
+    border-right: 2px solid var(--paint-dark);
+    border-bottom: 2px solid var(--paint-dark);
+    box-shadow: 2px 2px 0 rgba(0,0,0,.25);
+    z-index: 100;
+}
+
+.paint98-menu.open {
+    display: block;
+}
+
+.paint98-menu-item {
+    display: grid;
+    grid-template-columns: 18px 1fr auto;
+    align-items: center;
+    min-height: 23px;
+    padding: 2px 8px 2px 2px;
+    white-space: nowrap;
+    cursor: default;
+}
+
+.paint98-menu-item:hover {
+    background: var(--paint-menu-hover);
+    color: var(--paint-menu-hover-text);
+}
+
+.paint98-menu-item:hover span {
+    color: var(--paint-menu-hover-text);
+}
+
+.paint98-menu-check {
+    text-align: center;
+    font-weight: bold;
+}
+
+.paint98-menu-shortcut {
+    padding-left: 22px;
+}
+
+.paint98-menu-separator {
+    height: 1px;
+    margin: 3px 2px 3px 20px;
+    background: var(--paint-mid);
+}
+
+.paint98-main {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+    height: 506px;
+    margin-top: 4px;
+}
+
+.paint98-sidebar {
+    padding: 5px;
+    background: var(--paint-face);
+    border-top: 2px solid var(--paint-light);
+    border-left: 2px solid var(--paint-light);
+    border-right: 2px solid var(--paint-dark);
+    border-bottom: 2px solid var(--paint-dark);
+}
+
+.paint98-toolbox {
+    display: grid;
+    grid-template-columns: repeat(2, 28px);
+    grid-auto-rows: 28px;
+    gap: 2px;
+}
+
+.paint98-tool {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    background: var(--paint-face);
+    color: var(--paint-text);
+    border-top: 2px solid var(--paint-light);
+    border-left: 2px solid var(--paint-light);
+    border-right: 2px solid var(--paint-dark);
+    border-bottom: 2px solid var(--paint-dark);
+    cursor: default;
+}
+
+.paint98-tool:active,
+.paint98-tool.active {
+    padding: 5px 3px 3px 5px;
+    border-top-color: var(--paint-dark);
+    border-left-color: var(--paint-dark);
+    border-right-color: var(--paint-light);
+    border-bottom-color: var(--paint-light);
+    background: var(--paint-panel);
+}
+
+.paint98-tool-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAAAoCAYAAAB5LPGYAAAEtElEQVR4nO2bW7KkIAyGw9TsS9wZvTLolWUeFI3KJeGinjN8VV19UQLibyCBBhgMBoP/FZU4hpnjg3vB0/ce94bWUWPf28nayAkwdc5vFyi7Eyvt5+pAAADn3OFHrTWnrKg9lnyZy22jXQ3Nc97Gn4yxlPiyDSHv0s9SMPIqBRFriuftnwQVqwyNMYCIME0TTNO0HXDOgTEmVbYIjQi677Uf4Cqcejuu5yv1kNJyq1gUKbq8q8VKztbZEx3Ep5Six1oQu7sh+1tbvt9vsNDqCWvbhgAAFhYBrtdcarOZB7zcGPL5fDxE6QW0FF+2vP+weqSL+BAR1t9q3YLUK29eMiY+gL3d5c1aK8Nl2FXMjmtFbgimSFtW2inccknx+aeQU49zbvEk1oJybntt3/ebUnOjU/335Fx6e77ItOC29vxNHMs14uFOqxLfBhVfkHUcoXVD4dQC9+GNkrSV8n7tWC5pj2vuI+YBJUFGjF5DMEt8nPnHAS80Krir+HwFUk+4De1r4OB5Oouw9eX36/xvVekX+hyvn5N9FZz4ChqROrdHENJSfKE0CJ6NHDgeY/eRF9/n8/ECpBeQLHtOv1CmaaoOGPzw2yDYwswgErR7HoKlouF2ZAvQObcOSQ4A9nc6goo9X4j+4mPb2KYIJ6Zpgs/nAwAAxhg0xojn6F58ZJiv6rdQt+WgFdIoN5aEDZ0TstWDqDfQWoO1YvHFEsHXIaNSfMo5admDHYBjItqLz5iJnDYXBYmIQDMGVcNv5njQdqrCs2cT5+eE5+fKJQW4Im1frNx+7Fnxhdu0NAycU6A1/VkkwtYOJJq8r5wmFNNjJSS24lGT8omuQoC1y0uYv/MUlBVi0TmHAJa82NT23cUeIqIx5vC+qjJaRyoNc57tSwnNdaSfYzbvQME8x6YiYaxFmOfF6wEsno9GzbN4mMwwK60tHj2hRaEnfDQSzyWi7wownoKT6+SLzzPPVHzhc5oxK60RnCu6TY/fW8kccJAjJbDm3u9S+Vp373qCcB6soaXBYDAYDAaDwSBC59zdIIOPpmhE1zR9UGPrLnG8UYSpJPwb28viFBrvSc3AMk+iHJvU8pfURve1Z2E9NQLg1JFbinwqzSG57ksbyUpISHzztulgW9tc1vWezBH6NvVuQ2jDRZLU1qkYoZ0uN5G6NvZDJ7lmvYjqYDvqAUlCE0/iA+IcinZgxOsvstVThBKRi26Gh+m9Wnq/y+6aiM2c3SbXG/SAoWz6VXzbF8kQJfYqCXp7wh85p8rAEo0/J+SxWkPWguma4jHoOIrvsnWuNqioIfhUNOCueSaHVt5P7LFa/eMuBRFg1AOq48ciEdJCrW9qaxG+SXy/nosHjCxmZ0RYRQvhtBLh28T31si3GRcPmMj5RUTI3u3aO19VK8K3iS8KCRJ+fC6QBCHL5sbMdh4SRCj6W4qYu0TGOVJqA5PXiw8gHsFmUjpKay1NmwDcF4Swd9Jydy9L7LSkV2ByN0VpjgxKa53NPZJzks5ImsMM2bzkARtuaEzl/FokQbn1S1cyWqzySAmOEFIBSqNiYXtK7Ejs9tgu/jjiPxQJz+8JZ+33x88BB1fGjRwMBoPBYPDb+QfrhK4LuUwtjwAAAABJRU5ErkJggg==');
+    background-size: 160px 40px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    pointer-events: none;
+}
+
+.paint98-tool-options {
+    width: 60px;
+    min-height: 84px;
+    margin-top: 7px;
+    padding: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    background: var(--paint-panel);
+    border-top: 2px solid var(--paint-dark);
+    border-left: 2px solid var(--paint-dark);
+    border-right: 2px solid var(--paint-light);
+    border-bottom: 2px solid var(--paint-light);
+}
+
+.paint98-option {
+    min-height: 16px;
+    padding: 1px 2px;
+    border: 1px solid transparent;
+    background: var(--paint-panel);
+    color: var(--paint-text);
+    font: 10px Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.paint98-option.active {
+    border: 1px dotted var(--paint-text);
+    background: var(--paint-face);
+}
+
+.paint98-option-line {
+    display: block;
+    width: 34px;
+    margin: 5px auto;
+    background: var(--paint-text);
+}
+
+.paint98-shape-option {
+    height: 18px;
+    position: relative;
+}
+
+.paint98-shape-option::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 3px;
+    width: 24px;
+    height: 10px;
+    border: 1px solid var(--paint-text);
+    background: var(--paint-panel);
+}
+
+.paint98-shape-option[data-value="1"]::before {
+    background: var(--paint-mid);
+}
+
+.paint98-shape-option[data-value="2"]::before {
+    background: var(--paint-text);
+}
+
+.paint98-workspace {
+    position: relative;
+    overflow: auto;
+    padding: 8px;
+    background: var(--paint-work);
+    border-top: 2px solid var(--paint-dark);
+    border-left: 2px solid var(--paint-dark);
+    border-right: 2px solid var(--paint-light);
+    border-bottom: 2px solid var(--paint-light);
+}
+
+.paint98-canvas-holder {
+    position: relative;
+    width: 782px;
+    height: 482px;
+}
+
+#paint-canvas {
+    display: block;
+    width: 780px;
+    height: 480px;
+    background: #ffffff;
+    border: 1px solid #000000;
+    image-rendering: pixelated;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+.paint98-selection {
+    display: none;
+    position: absolute;
+    pointer-events: none;
+    border: 1px dashed #000000;
+    outline: 1px dashed #ffffff;
+    outline-offset: -2px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.15);
+    z-index: 4;
+}
+
+.paint98-bottom {
+    margin-top: 4px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 8px;
+    min-height: 54px;
+    padding: 5px;
+    background: var(--paint-face);
+    border-top: 2px solid var(--paint-light);
+    border-left: 2px solid var(--paint-light);
+    border-right: 2px solid var(--paint-dark);
+    border-bottom: 2px solid var(--paint-dark);
+}
+
+.paint98-current-colors {
+    position: relative;
+    width: 38px;
+    height: 36px;
+    background: var(--paint-face);
+    border-top: 2px solid var(--paint-dark);
+    border-left: 2px solid var(--paint-dark);
+    border-right: 2px solid var(--paint-light);
+    border-bottom: 2px solid var(--paint-light);
+}
+
+.paint98-bg-swatch,
+.paint98-fg-swatch {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000000;
+}
+
+.paint98-bg-swatch {
+    left: 13px;
+    top: 11px;
+    background: #ffffff;
+}
+
+.paint98-fg-swatch {
+    left: 3px;
+    top: 3px;
+    background: #000000;
+}
+
+.paint98-palette {
+    display: grid;
+    grid-template-columns: repeat(14, 17px);
+    grid-template-rows: repeat(2, 17px);
+    gap: 2px;
+}
+
+.paint98-color {
+    width: 17px;
+    height: 17px;
+    padding: 0;
+    border-top: 1px solid var(--paint-mid);
+    border-left: 1px solid var(--paint-mid);
+    border-right: 1px solid var(--paint-light);
+    border-bottom: 1px solid var(--paint-light);
+    box-shadow: inset 0 0 0 1px #000000;
+    cursor: default;
+}
+
+.paint98-status {
+    min-width: 215px;
+    display: grid;
+    gap: 2px;
+}
+
+.paint98-status-cell {
+    min-height: 20px;
+    line-height: 18px;
+    padding: 0 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--paint-text);
+    background: var(--paint-panel);
+    border-top: 1px solid var(--paint-dark);
+    border-left: 1px solid var(--paint-dark);
+    border-right: 1px solid var(--paint-light);
+    border-bottom: 1px solid var(--paint-light);
+}
+
+.paint98-resolution-lock {
+    font-weight: bold;
+}
+
+.paint98-dialog-backdrop {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.18);
+    z-index: 200;
+}
+
+.paint98-dialog-backdrop.open {
+    display: flex;
+}
+
+.paint98-dialog {
+    width: 340px;
+    background: var(--paint-face);
+    color: var(--paint-text);
+    border-top: 2px solid var(--paint-light);
+    border-left: 2px solid var(--paint-light);
+    border-right: 2px solid var(--paint-dark);
+    border-bottom: 2px solid var(--paint-dark);
+    box-shadow: 4px 4px 0 rgba(0,0,0,.35);
+}
+
+.paint98-dialog-title {
+    padding: 5px 7px;
+    background: #000080;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+body.dark-mode .paint98-dialog-title {
+    background: #414a8f;
+}
+
+.paint98-dialog-body {
+    padding: 12px;
+}
+
+.paint98-dialog-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 7px 0;
+}
+
+.paint98-dialog-row label {
+    min-width: 90px;
+}
+
+.paint98-dialog input[type="number"],
+.paint98-dialog input[type="text"],
+.paint98-dialog select {
+    height: 24px;
+    flex: 1;
+    min-width: 0;
+    color: var(--paint-text);
+    background: var(--paint-panel);
+    border: 1px solid var(--paint-dark);
+    font: 12px Arial, Helvetica, sans-serif;
+}
+
+.paint98-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 7px;
+    margin-top: 12px;
+}
+
+.paint98-button {
+    min-width: 74px;
+    height: 26px;
+    color: var(--paint-text);
+    background: var(--paint-face);
+    border-top: 2px solid var(--paint-light);
+    border-left: 2px solid var(--paint-light);
+    border-right: 2px solid var(--paint-dark);
+    border-bottom: 2px solid var(--paint-dark);
+    font: 12px Arial, Helvetica, sans-serif;
+}
+
+.paint98-button:active {
+    border-top-color: var(--paint-dark);
+    border-left-color: var(--paint-dark);
+    border-right-color: var(--paint-light);
+    border-bottom-color: var(--paint-light);
+}
+
+@media (max-width: 700px) {
+    #paint {
+        padding: 5px;
+    }
+
+    .paint98 {
+        min-width: 760px;
+    }
+}
+
 </style>
 </head>
 
@@ -652,6 +1133,7 @@ body.dark-mode .online-counter {
         <button class="tab-button" onclick="openPage('fanart', this)">Fan Art</button>
         <button class="tab-button" onclick="openPage('sneakpeaks', this)">Sneak Peaks</button>
         <button class="tab-button" onclick="openPage('music', this)">Music</button>
+        <button class="tab-button" onclick="openPage('paint', this)">Paint</button>
         <button class="tab-button" onclick="openPage('socials', this)">Socials</button>
     </div>
 
@@ -710,12 +1192,118 @@ body.dark-mode .online-counter {
     </div>
 
     <div id="sneakpeaks" class="page">
-        <h2>My Sneak Peaks</h2>
+        <h2>Sneak Peaks</h2>
         <div id="sneakpeaks-grid">Loading sneak peaks...</div>
     </div>
 
+    <div id="paint" class="page paint-page">
+        <div class="paint-scroll-shell">
+            <div class="paint98" id="paint98">
+
+                <div class="paint98-menurow" id="paint-menubar">
+                    <button class="paint98-menu-button" type="button" data-menu="file">File</button>
+                    <button class="paint98-menu-button" type="button" data-menu="edit">Edit</button>
+                    <button class="paint98-menu-button" type="button" data-menu="image">Image</button>
+                    <button class="paint98-menu-button" type="button" data-menu="colors">Colors</button>
+
+                    <div class="paint98-menu" id="paint-menu-file" style="left:2px">
+                        <div class="paint98-menu-item" data-action="new"><span></span><span>New</span><span class="paint98-menu-shortcut">Ctrl+N</span></div>
+                        <div class="paint98-menu-item" data-action="open"><span></span><span>Open...</span><span class="paint98-menu-shortcut">Ctrl+O</span></div>
+                        <div class="paint98-menu-item" data-action="save"><span></span><span>Save</span><span class="paint98-menu-shortcut">Ctrl+S</span></div>
+                        <div class="paint98-menu-item" data-action="save-as"><span></span><span>Save As...</span><span></span></div>
+                    </div>
+
+                    <div class="paint98-menu" id="paint-menu-edit" style="left:39px">
+                        <div class="paint98-menu-item" data-action="undo"><span></span><span>Undo</span><span class="paint98-menu-shortcut">Ctrl+Z</span></div>
+                        <div class="paint98-menu-item" data-action="repeat"><span></span><span>Repeat</span><span class="paint98-menu-shortcut">F4</span></div>
+                        <div class="paint98-menu-separator"></div>
+                        <div class="paint98-menu-item" data-action="cut"><span></span><span>Cut</span><span class="paint98-menu-shortcut">Ctrl+X</span></div>
+                        <div class="paint98-menu-item" data-action="copy"><span></span><span>Copy</span><span class="paint98-menu-shortcut">Ctrl+C</span></div>
+                        <div class="paint98-menu-item" data-action="paste"><span></span><span>Paste</span><span class="paint98-menu-shortcut">Ctrl+V</span></div>
+                        <div class="paint98-menu-item" data-action="clear-selection"><span></span><span>Clear Selection</span><span class="paint98-menu-shortcut">Del</span></div>
+                        <div class="paint98-menu-item" data-action="select-all"><span></span><span>Select All</span><span class="paint98-menu-shortcut">Ctrl+A</span></div>
+                        <div class="paint98-menu-separator"></div>
+                        <div class="paint98-menu-item" data-action="paste-from"><span></span><span>Paste From...</span><span></span></div>
+                    </div>
+
+                    <div class="paint98-menu" id="paint-menu-image" style="left:78px">
+                        <div class="paint98-menu-item" data-action="flip-rotate"><span></span><span>Flip/Rotate...</span><span></span></div>
+                        <div class="paint98-menu-item" data-action="invert"><span></span><span>Invert Colors</span><span>Ctrl+I</span></div>
+                        <div class="paint98-menu-item" data-action="clear-image"><span></span><span>Clear Image</span><span></span></div>
+                        <div class="paint98-menu-item" data-action="draw-opaque"><span class="paint98-menu-check" id="paint-opaque-check">✓</span><span>Draw Opaque</span><span></span></div>
+                    </div>
+
+                    <div class="paint98-menu" id="paint-menu-colors" style="left:129px">
+                        <div class="paint98-menu-item" data-action="edit-colors"><span></span><span>Edit Colors...</span><span></span></div>
+                    </div>
+                </div>
+
+                <div class="paint98-main">
+                    <div class="paint98-sidebar">
+                        <div class="paint98-toolbox">
+                            <button class="paint98-tool" type="button" data-tool="free-select" title="Free-Form Select"><span class="paint98-tool-icon" style="background-position:0px 0px"></span></button>
+<button class="paint98-tool" type="button" data-tool="select" title="Select"><span class="paint98-tool-icon" style="background-position:-20px 0px"></span></button>
+<button class="paint98-tool" type="button" data-tool="eraser" title="Eraser"><span class="paint98-tool-icon" style="background-position:-40px 0px"></span></button>
+<button class="paint98-tool" type="button" data-tool="fill" title="Fill With Color"><span class="paint98-tool-icon" style="background-position:-60px 0px"></span></button>
+<button class="paint98-tool" type="button" data-tool="picker" title="Pick Color"><span class="paint98-tool-icon" style="background-position:-80px 0px"></span></button>
+<button class="paint98-tool" type="button" data-tool="magnifier" title="Magnifier"><span class="paint98-tool-icon" style="background-position:-100px 0px"></span></button>
+<button class="paint98-tool" type="button" data-tool="pencil" title="Pencil"><span class="paint98-tool-icon" style="background-position:-120px 0px"></span></button>
+<button class="paint98-tool" type="button" data-tool="brush" title="Brush"><span class="paint98-tool-icon" style="background-position:-140px 0px"></span></button>
+<button class="paint98-tool" type="button" data-tool="airbrush" title="Airbrush"><span class="paint98-tool-icon" style="background-position:0px -20px"></span></button>
+<button class="paint98-tool" type="button" data-tool="text" title="Text"><span class="paint98-tool-icon" style="background-position:-20px -20px"></span></button>
+<button class="paint98-tool" type="button" data-tool="line" title="Line"><span class="paint98-tool-icon" style="background-position:-40px -20px"></span></button>
+<button class="paint98-tool" type="button" data-tool="curve" title="Curve"><span class="paint98-tool-icon" style="background-position:-60px -20px"></span></button>
+<button class="paint98-tool" type="button" data-tool="rectangle" title="Rectangle"><span class="paint98-tool-icon" style="background-position:-80px -20px"></span></button>
+<button class="paint98-tool" type="button" data-tool="polygon" title="Polygon"><span class="paint98-tool-icon" style="background-position:-100px -20px"></span></button>
+<button class="paint98-tool" type="button" data-tool="ellipse" title="Ellipse"><span class="paint98-tool-icon" style="background-position:-120px -20px"></span></button>
+<button class="paint98-tool" type="button" data-tool="rounded" title="Rounded Rectangle"><span class="paint98-tool-icon" style="background-position:-140px -20px"></span></button>
+                        </div>
+                        <div class="paint98-tool-options" id="paint-tool-options"></div>
+                    </div>
+
+                    <div class="paint98-workspace" id="paint-workspace">
+                        <div class="paint98-canvas-holder" id="paint-canvas-holder">
+                            <canvas id="paint-canvas" width="780" height="480"></canvas>
+                            <div class="paint98-selection" id="paint-selection"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="paint98-bottom">
+                    <div class="paint98-current-colors" title="Left click selects the drawing color. Right click selects the background color.">
+                        <div class="paint98-bg-swatch" id="paint-bg-swatch"></div>
+                        <div class="paint98-fg-swatch" id="paint-fg-swatch"></div>
+                    </div>
+
+                    <div class="paint98-palette" id="paint-palette"></div>
+
+                    <div class="paint98-status">
+                        <div class="paint98-status-cell" id="paint-status">Pencil</div>
+                        <div class="paint98-status-cell">
+                            <span id="paint-coords"></span>
+                            <span class="paint98-resolution-lock" id="paint-size" style="float:right;">Canvas: 780 × 480</span>
+                        </div>
+                    </div>
+                </div>
+
+                <input id="paint-open-input" type="file" accept="image/*,.bmp" hidden>
+                <input id="paint-paste-input" type="file" accept="image/*,.bmp" hidden>
+                <input id="paint-color-input" type="color" hidden>
+
+                <div class="paint98-dialog-backdrop" id="paint-dialog-backdrop">
+                    <div class="paint98-dialog">
+                        <div class="paint98-dialog-title" id="paint-dialog-title">Dialog</div>
+                        <div class="paint98-dialog-body" id="paint-dialog-body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <div id="music" class="page">
-        <h2>My Music</h2>
+        <h2>Music</h2>
 
         <div class="music-empty">
             Nothing here yet!.
@@ -723,7 +1311,7 @@ body.dark-mode .online-counter {
     </div>
 
     <div id="socials" class="page">
-        <h2>My Socials</h2>
+        <h2>Socials</h2>
 
         <div class="social-grid">
 
@@ -801,6 +1389,1101 @@ body.dark-mode .online-counter {
 </div>
 
 <script>
+
+
+(function () {
+    const app = document.getElementById('paint98');
+    if (!app) return;
+
+    const FIXED_WIDTH = 780;
+    const FIXED_HEIGHT = 480;
+
+    const canvas = document.getElementById('paint-canvas');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const selectionEl = document.getElementById('paint-selection');
+    const statusEl = document.getElementById('paint-status');
+    const coordsEl = document.getElementById('paint-coords');
+    const sizeEl = document.getElementById('paint-size');
+    const fgSwatch = document.getElementById('paint-fg-swatch');
+    const bgSwatch = document.getElementById('paint-bg-swatch');
+    const optionsEl = document.getElementById('paint-tool-options');
+    const openInput = document.getElementById('paint-open-input');
+    const pasteInput = document.getElementById('paint-paste-input');
+    const colorInput = document.getElementById('paint-color-input');
+    const opaqueCheck = document.getElementById('paint-opaque-check');
+    const dialogBackdrop = document.getElementById('paint-dialog-backdrop');
+    const dialogTitle = document.getElementById('paint-dialog-title');
+    const dialogBody = document.getElementById('paint-dialog-body');
+
+    const paletteColors = [
+        '#000000','#808080','#800000','#808000','#008000','#008080','#000080','#800080','#808040','#004040','#0080ff','#004080','#8000ff','#804000',
+        '#ffffff','#c0c0c0','#ff0000','#ffff00','#00ff00','#00ffff','#0000ff','#ff00ff','#ffff80','#00ff80','#80ffff','#8080ff','#ff0080','#ff8040'
+    ];
+
+    const toolStatuses = {
+        'free-select':'Free-form selection',
+        'select':'Rectangular selection',
+        'eraser':'Eraser',
+        'fill':'Fill with color',
+        'picker':'Pick color',
+        'magnifier':'Magnifier',
+        'pencil':'Pencil',
+        'brush':'Brush',
+        'airbrush':'Airbrush',
+        'text':'Text',
+        'line':'Line',
+        'curve':'Curve',
+        'rectangle':'Rectangle',
+        'polygon':'Polygon',
+        'ellipse':'Ellipse',
+        'rounded':'Rounded rectangle'
+    };
+
+    let tool = 'pencil';
+    let fg = '#000000';
+    let bg = '#ffffff';
+    let lineWidth = 1;
+    let eraserSize = 8;
+    let brushSize = 4;
+    let spraySize = 8;
+    let zoom = 1;
+    let shapeMode = 0;
+    let drawOpaque = true;
+    let drawing = false;
+    let start = null;
+    let last = null;
+    let previewBase = null;
+    let selection = null;
+    let internalClipboard = null;
+    let history = [];
+    let redoStack = [];
+    let fileName = 'drawing.png';
+    let modified = false;
+    let polygonPoints = [];
+    let polygonBase = null;
+    let movingSelection = false;
+    let selectionPixels = null;
+    let selectionMoveBase = null;
+    let selectionMoveOrigin = null;
+
+    function fillWhite() {
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, FIXED_WIDTH, FIXED_HEIGHT);
+        ctx.restore();
+    }
+
+    function updateSize() {
+        canvas.style.width = (FIXED_WIDTH * zoom) + 'px';
+        canvas.style.height = (FIXED_HEIGHT * zoom) + 'px';
+        sizeEl.textContent = 'Canvas: 780 × 480';
+        updateSelectionDisplay();
+    }
+
+    function snapshot() {
+        return ctx.getImageData(0, 0, FIXED_WIDTH, FIXED_HEIGHT);
+    }
+
+    function resetHistory() {
+        history = [snapshot()];
+        redoStack = [];
+    }
+
+    function commitHistory() {
+        history.push(snapshot());
+        if (history.length > 31) history.shift();
+        redoStack = [];
+        modified = true;
+    }
+
+    function restoreImageData(img) {
+        ctx.putImageData(img, 0, 0);
+    }
+
+    function undo() {
+        if (history.length <= 1) return;
+        redoStack.push(history.pop());
+        restoreImageData(history[history.length - 1]);
+        modified = true;
+    }
+
+    function redo() {
+        if (!redoStack.length) return;
+        const img = redoStack.pop();
+        history.push(img);
+        restoreImageData(img);
+        modified = true;
+    }
+
+    function setColors() {
+        fgSwatch.style.background = fg;
+        bgSwatch.style.background = bg;
+    }
+
+    function cssColorToRgba(hex) {
+        const v = hex.replace('#','');
+        return [parseInt(v.slice(0,2),16), parseInt(v.slice(2,4),16), parseInt(v.slice(4,6),16), 255];
+    }
+
+    function rgbToHex(r,g,b) {
+        return '#' + [r,g,b].map(v => Math.max(0,Math.min(255,v)).toString(16).padStart(2,'0')).join('');
+    }
+
+    function setupPalette() {
+        const p = document.getElementById('paint-palette');
+        p.innerHTML = '';
+        paletteColors.forEach(color => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'paint98-color';
+            b.style.background = color;
+            b.title = color;
+            b.addEventListener('mousedown', e => {
+                e.preventDefault();
+                if (e.button === 2) bg = color; else fg = color;
+                setColors();
+            });
+            b.addEventListener('contextmenu', e => e.preventDefault());
+            p.appendChild(b);
+        });
+    }
+
+    function setTool(next) {
+        if (tool === 'polygon' && polygonPoints.length) finishPolygon();
+        tool = next;
+        movingSelection=false;
+        selectionPixels=null;
+        selectionMoveBase=null;
+        selectionMoveOrigin=null;
+        document.querySelectorAll('.paint98-tool').forEach(b => b.classList.toggle('active', b.dataset.tool === tool));
+        statusEl.textContent = toolStatuses[tool] || '';
+        renderToolOptions();
+        if (tool !== 'select' && tool !== 'free-select') clearSelectionOutline();
+    }
+
+    function optionButton(label, value, active, handler, extraClass='') {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'paint98-option ' + extraClass + (active ? ' active' : '');
+        b.dataset.value = String(value);
+        b.title = label;
+        b.addEventListener('click', handler);
+        return b;
+    }
+
+    function renderToolOptions() {
+        optionsEl.innerHTML = '';
+        const lineTools = ['line','curve','rectangle','polygon','ellipse','rounded'];
+
+        if (tool === 'eraser') {
+            [4,8,12,16].forEach(v => {
+                const b = optionButton(v + ' pixel eraser', v, eraserSize===v, () => {
+                    eraserSize=v;
+                    renderToolOptions();
+                });
+                const s=document.createElement('span');
+                s.style.cssText=`display:block;margin:auto;width:${Math.min(30,v)}px;height:${Math.min(11,v/2+2)}px;background:currentColor;`;
+                b.appendChild(s);
+                optionsEl.appendChild(b);
+            });
+        } else if (tool === 'magnifier') {
+            [1,2,4].forEach(v => {
+                const b=optionButton(v+'x',v,zoom===v,()=>{
+                    zoom=v;
+                    updateSize();
+                    renderToolOptions();
+                });
+                b.textContent=v+'x';
+                optionsEl.appendChild(b);
+            });
+        } else if (tool === 'brush') {
+            [1,3,5,8].forEach(v => {
+                const b=optionButton('Brush size '+v,v,brushSize===v,()=>{
+                    brushSize=v;
+                    renderToolOptions();
+                });
+                const s=document.createElement('span');
+                s.style.cssText=`display:block;margin:auto;width:${Math.max(2,v*2)}px;height:${Math.max(2,v)}px;background:currentColor;`;
+                b.appendChild(s);
+                optionsEl.appendChild(b);
+            });
+        } else if (tool === 'airbrush') {
+            [4,8,12].forEach(v => {
+                const b=optionButton('Spray size '+v,v,spraySize===v,()=>{
+                    spraySize=v;
+                    renderToolOptions();
+                });
+                b.textContent='•'.repeat(Math.max(1,Math.round(v/4)));
+                optionsEl.appendChild(b);
+            });
+        } else if (lineTools.includes(tool)) {
+            if (['rectangle','polygon','ellipse','rounded'].includes(tool)) {
+                [0,1,2].forEach(v => optionsEl.appendChild(
+                    optionButton(
+                        ['Outline','Filled with outline','Fill only'][v],
+                        v,
+                        shapeMode===v,
+                        ()=>{ shapeMode=v; renderToolOptions(); },
+                        'paint98-shape-option'
+                    )
+                ));
+            } else {
+                [1,2,3,5].forEach(v => {
+                    const b=optionButton('Line width '+v,v,lineWidth===v,()=>{
+                        lineWidth=v;
+                        renderToolOptions();
+                    });
+                    const s=document.createElement('span');
+                    s.className='paint98-option-line';
+                    s.style.height=v+'px';
+                    b.appendChild(s);
+                    optionsEl.appendChild(b);
+                });
+            }
+        } else if (tool === 'select' || tool === 'free-select' || tool === 'text') {
+            const b1=optionButton('Opaque',1,drawOpaque,()=>{
+                drawOpaque=true;
+                opaqueCheck.textContent='✓';
+                renderToolOptions();
+            });
+            b1.textContent='Opaque';
+
+            const b2=optionButton('Transparent',0,!drawOpaque,()=>{
+                drawOpaque=false;
+                opaqueCheck.textContent='';
+                renderToolOptions();
+            });
+            b2.textContent='Transp.';
+
+            optionsEl.append(b1,b2);
+        }
+    }
+
+    function pointFromEvent(e) {
+        const r = canvas.getBoundingClientRect();
+        return {
+            x: Math.max(0, Math.min(FIXED_WIDTH-1, Math.floor((e.clientX-r.left) * FIXED_WIDTH / r.width))),
+            y: Math.max(0, Math.min(FIXED_HEIGHT-1, Math.floor((e.clientY-r.top) * FIXED_HEIGHT / r.height)))
+        };
+    }
+
+    function currentColor(e) {
+        return e && e.button === 2 ? bg : fg;
+    }
+
+    function drawFreeLine(a,b,color,width) {
+        ctx.save();
+        ctx.strokeStyle=color;
+        ctx.fillStyle=color;
+        ctx.lineWidth=width;
+        ctx.lineCap='round';
+        ctx.lineJoin='round';
+        ctx.beginPath();
+        ctx.moveTo(a.x+.5,a.y+.5);
+        ctx.lineTo(b.x+.5,b.y+.5);
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    function drawEraser(p) {
+        const s=eraserSize;
+        ctx.fillStyle=bg;
+        ctx.fillRect(Math.round(p.x-s/2),Math.round(p.y-s/2),s,s);
+    }
+
+    function spray(p,color) {
+        ctx.fillStyle=color;
+        const dots = Math.max(8, spraySize*2);
+        for (let i=0;i<dots;i++) {
+            const a=Math.random()*Math.PI*2;
+            const rad=Math.sqrt(Math.random())*spraySize;
+            const x=Math.round(p.x+Math.cos(a)*rad);
+            const y=Math.round(p.y+Math.sin(a)*rad);
+            ctx.fillRect(x,y,1,1);
+        }
+    }
+
+    function normalizeRect(a,b) {
+        return {
+            x:Math.min(a.x,b.x),
+            y:Math.min(a.y,b.y),
+            w:Math.abs(b.x-a.x)+1,
+            h:Math.abs(b.y-a.y)+1
+        };
+    }
+
+    function pointInSelection(p) {
+        return !!selection &&
+            p.x >= selection.x && p.y >= selection.y &&
+            p.x < selection.x + selection.w &&
+            p.y < selection.y + selection.h;
+    }
+
+    function applyShapeStyles(color) {
+        ctx.lineWidth=lineWidth;
+        ctx.strokeStyle=color;
+        ctx.fillStyle=color;
+        ctx.lineJoin='miter';
+    }
+
+    function drawShape(kind,a,b,color) {
+        const r=normalizeRect(a,b);
+        ctx.save();
+        applyShapeStyles(color);
+        ctx.beginPath();
+
+        if (kind==='line') {
+            ctx.moveTo(a.x+.5,a.y+.5);
+            ctx.lineTo(b.x+.5,b.y+.5);
+            ctx.stroke();
+            ctx.restore();
+            return;
+        }
+
+        if (kind==='curve') {
+            const cx=(a.x+b.x)/2;
+            const cy=Math.min(a.y,b.y)-Math.max(8,Math.abs(b.x-a.x)/5);
+            ctx.moveTo(a.x,a.y);
+            ctx.quadraticCurveTo(cx,cy,b.x,b.y);
+            ctx.stroke();
+            ctx.restore();
+            return;
+        }
+
+        if (kind==='rectangle') ctx.rect(r.x+.5,r.y+.5,Math.max(1,r.w-1),Math.max(1,r.h-1));
+        if (kind==='ellipse') ctx.ellipse(r.x+r.w/2,r.y+r.h/2,Math.max(.5,r.w/2),Math.max(.5,r.h/2),0,0,Math.PI*2);
+
+        if (kind==='rounded') {
+            const rr=Math.min(12,r.w/4,r.h/4);
+            const x=r.x+.5,y=r.y+.5,w=Math.max(1,r.w-1),h=Math.max(1,r.h-1);
+            ctx.moveTo(x+rr,y);
+            ctx.lineTo(x+w-rr,y);
+            ctx.quadraticCurveTo(x+w,y,x+w,y+rr);
+            ctx.lineTo(x+w,y+h-rr);
+            ctx.quadraticCurveTo(x+w,y+h,x+w-rr,y+h);
+            ctx.lineTo(x+rr,y+h);
+            ctx.quadraticCurveTo(x,y+h,x,y+h-rr);
+            ctx.lineTo(x,y+rr);
+            ctx.quadraticCurveTo(x,y,x+rr,y);
+        }
+
+        if (shapeMode===0) {
+            ctx.stroke();
+        } else if (shapeMode===1) {
+            ctx.fillStyle=bg;
+            ctx.fill();
+            ctx.strokeStyle=color;
+            ctx.stroke();
+        } else {
+            ctx.fillStyle=color;
+            ctx.fill();
+        }
+
+        ctx.restore();
+    }
+
+    function setSelection(rect) {
+        selection=rect;
+        updateSelectionDisplay();
+    }
+
+    function clearSelectionOutline() {
+        selection=null;
+        selectionEl.style.display='none';
+    }
+
+    function updateSelectionDisplay() {
+        if (!selection) {
+            selectionEl.style.display='none';
+            return;
+        }
+        selectionEl.style.display='block';
+        selectionEl.style.left=(selection.x*zoom+1)+'px';
+        selectionEl.style.top=(selection.y*zoom+1)+'px';
+        selectionEl.style.width=Math.max(1,selection.w*zoom)+'px';
+        selectionEl.style.height=Math.max(1,selection.h*zoom)+'px';
+    }
+
+    function floodFill(x,y,hex) {
+        const img=ctx.getImageData(0,0,FIXED_WIDTH,FIXED_HEIGHT);
+        const d=img.data,w=FIXED_WIDTH,h=FIXED_HEIGHT;
+        const i0=(y*w+x)*4;
+        const target=[d[i0],d[i0+1],d[i0+2],d[i0+3]];
+        const repl=cssColorToRgba(hex);
+
+        if (target.every((v,i)=>v===repl[i])) return false;
+
+        const stack=[y*w+x];
+        const match=(idx)=>{
+            const i=idx*4;
+            return d[i]===target[0]&&d[i+1]===target[1]&&d[i+2]===target[2]&&d[i+3]===target[3];
+        };
+
+        while(stack.length) {
+            const idx=stack.pop();
+            if(idx<0||idx>=w*h||!match(idx)) continue;
+
+            const px=idx%w;
+            const py=(idx/w)|0;
+            const i=idx*4;
+
+            d[i]=repl[0];
+            d[i+1]=repl[1];
+            d[i+2]=repl[2];
+            d[i+3]=255;
+
+            if(px>0)stack.push(idx-1);
+            if(px<w-1)stack.push(idx+1);
+            if(py>0)stack.push(idx-w);
+            if(py<h-1)stack.push(idx+w);
+        }
+
+        ctx.putImageData(img,0,0);
+        return true;
+    }
+
+    function pickColor(p,right) {
+        const d=ctx.getImageData(p.x,p.y,1,1).data;
+        const c=rgbToHex(d[0],d[1],d[2]);
+        if(right) bg=c; else fg=c;
+        setColors();
+    }
+
+    function beginPointer(e) {
+        if (e.button!==0 && e.button!==2) return;
+        if (tool==='polygon') return beginPolygon(e);
+
+        e.preventDefault();
+        const p=pointFromEvent(e);
+        start=p;
+        last=p;
+        coordsEl.textContent=p.x+', '+p.y;
+        const color=currentColor(e);
+
+        if (tool==='fill') {
+            if(floodFill(p.x,p.y,color)) commitHistory();
+            return;
+        }
+
+        if (tool==='picker') {
+            pickColor(p,e.button===2);
+            return;
+        }
+
+        if (tool==='magnifier') {
+            zoom = zoom === 1 ? 2 : 1;
+            updateSize();
+            renderToolOptions();
+            return;
+        }
+
+        if (tool==='text') {
+            textAt(p,color);
+            return;
+        }
+
+        if (tool==='select'||tool==='free-select') {
+            drawing=true;
+
+            if (pointInSelection(p)) {
+                movingSelection=true;
+                selectionMoveOrigin={x:selection.x,y:selection.y};
+                selectionPixels=ctx.getImageData(selection.x,selection.y,selection.w,selection.h);
+                selectionMoveBase=snapshot();
+                start=p;
+            } else {
+                movingSelection=false;
+                selectionPixels=null;
+                selectionMoveBase=null;
+                setSelection({x:p.x,y:p.y,w:1,h:1});
+                start=p;
+            }
+
+            canvas.setPointerCapture(e.pointerId);
+            return;
+        }
+
+        drawing=true;
+        previewBase=snapshot();
+        canvas.setPointerCapture(e.pointerId);
+
+        if (tool==='pencil') {
+            ctx.fillStyle=color;
+            ctx.fillRect(p.x,p.y,1,1);
+        }
+        if (tool==='brush') drawFreeLine(p,p,color,brushSize);
+        if (tool==='eraser') drawEraser(p);
+        if (tool==='airbrush') spray(p,color);
+    }
+
+    function movePointer(e) {
+        const p=pointFromEvent(e);
+        coordsEl.textContent=p.x+', '+p.y;
+
+        if (!drawing) return;
+
+        const color = (e.buttons & 2) ? bg : fg;
+
+        if (tool==='pencil') drawFreeLine(last,p,color,1);
+        else if (tool==='brush') drawFreeLine(last,p,color,brushSize);
+        else if (tool==='eraser') drawEraser(p);
+        else if (tool==='airbrush') spray(p,color);
+        else if (tool==='select'||tool==='free-select') {
+            if (movingSelection && selectionPixels && selectionMoveBase) {
+                const dx=p.x-start.x;
+                const dy=p.y-start.y;
+                const maxX=FIXED_WIDTH-selection.w;
+                const maxY=FIXED_HEIGHT-selection.h;
+                const nx=Math.max(0,Math.min(maxX,selectionMoveOrigin.x+dx));
+                const ny=Math.max(0,Math.min(maxY,selectionMoveOrigin.y+dy));
+
+                ctx.putImageData(selectionMoveBase,0,0);
+                ctx.fillStyle=bg;
+                ctx.fillRect(selectionMoveOrigin.x,selectionMoveOrigin.y,selection.w,selection.h);
+                ctx.putImageData(selectionPixels,nx,ny);
+                setSelection({x:nx,y:ny,w:selection.w,h:selection.h});
+            } else {
+                setSelection(normalizeRect(start,p));
+            }
+        }
+        else if (['line','curve','rectangle','ellipse','rounded'].includes(tool)) {
+            ctx.putImageData(previewBase,0,0);
+            drawShape(tool,start,p,color);
+        }
+
+        last=p;
+    }
+
+    function endPointer(e) {
+        if (!drawing) return;
+
+        const p=pointFromEvent(e);
+        const color=currentColor(e);
+
+        if (['line','curve','rectangle','ellipse','rounded'].includes(tool)) {
+            ctx.putImageData(previewBase,0,0);
+            drawShape(tool,start,p,color);
+            commitHistory();
+        } else if (['pencil','brush','eraser','airbrush'].includes(tool)) {
+            commitHistory();
+        } else if ((tool==='select'||tool==='free-select') && movingSelection) {
+            commitHistory();
+        }
+
+        drawing=false;
+        movingSelection=false;
+        selectionPixels=null;
+        selectionMoveBase=null;
+        selectionMoveOrigin=null;
+        previewBase=null;
+        last=null;
+        start=null;
+
+        try {
+            canvas.releasePointerCapture(e.pointerId);
+        } catch(_) {}
+    }
+
+    function beginPolygon(e) {
+        if (e.button!==0 && e.button!==2) return;
+        e.preventDefault();
+
+        const p=pointFromEvent(e);
+        const color=currentColor(e);
+
+        if (!polygonPoints.length) {
+            polygonBase=snapshot();
+            polygonPoints=[p];
+            return;
+        }
+
+        polygonPoints.push(p);
+        ctx.putImageData(polygonBase,0,0);
+        drawPolygonPreview(color,false);
+    }
+
+    function drawPolygonPreview(color,closed) {
+        if (polygonPoints.length<2) return;
+
+        ctx.save();
+        applyShapeStyles(color);
+        ctx.beginPath();
+        ctx.moveTo(polygonPoints[0].x,polygonPoints[0].y);
+
+        for(let i=1;i<polygonPoints.length;i++) {
+            ctx.lineTo(polygonPoints[i].x,polygonPoints[i].y);
+        }
+
+        if(closed) ctx.closePath();
+
+        if(closed && shapeMode===1) {
+            ctx.fillStyle=bg;
+            ctx.fill();
+            ctx.strokeStyle=color;
+            ctx.stroke();
+        } else if(closed && shapeMode===2) {
+            ctx.fillStyle=color;
+            ctx.fill();
+        } else {
+            ctx.stroke();
+        }
+
+        ctx.restore();
+    }
+
+    function finishPolygon() {
+        if(!polygonPoints.length) return;
+
+        ctx.putImageData(polygonBase,0,0);
+        drawPolygonPreview(fg,true);
+        polygonPoints=[];
+        polygonBase=null;
+        commitHistory();
+    }
+
+    function textAt(p,color) {
+        showDialog('Text', `
+            <div class="paint98-dialog-row"><label>Text:</label><input id="paint-text-value" type="text" autofocus></div>
+            <div class="paint98-dialog-row"><label>Font:</label><select id="paint-text-font"><option>Arial</option><option>Tahoma</option><option>Times New Roman</option><option>Courier New</option></select></div>
+            <div class="paint98-dialog-row"><label>Size:</label><input id="paint-text-size" type="number" min="6" max="144" value="20"></div>
+            <div class="paint98-dialog-actions"><button class="paint98-button" data-dialog="cancel">Cancel</button><button class="paint98-button" id="paint-text-ok">OK</button></div>
+        `, () => {
+            const ok=document.getElementById('paint-text-ok');
+            if(ok) {
+                ok.onclick=()=>{
+                    const value=document.getElementById('paint-text-value').value;
+                    const font=document.getElementById('paint-text-font').value;
+                    const size=Math.max(6,Math.min(144,Number(document.getElementById('paint-text-size').value)||20));
+
+                    if(value) {
+                        ctx.font=size+'px '+font;
+                        ctx.textBaseline='top';
+
+                        if(drawOpaque) {
+                            ctx.fillStyle=bg;
+                            const m=ctx.measureText(value);
+                            ctx.fillRect(p.x,p.y,Math.ceil(m.width)+4,size+6);
+                        }
+
+                        ctx.fillStyle=color;
+                        ctx.fillText(value,p.x,p.y);
+                        commitHistory();
+                    }
+
+                    closeDialog();
+                };
+            }
+        });
+    }
+
+    function newImage() {
+        ctx.clearRect(0,0,FIXED_WIDTH,FIXED_HEIGHT);
+        fillWhite();
+        zoom=1;
+        fileName='drawing.png';
+        modified=false;
+        clearSelectionOutline();
+        resetHistory();
+        updateSize();
+    }
+
+    function drawImageFit(img) {
+        fillWhite();
+        const scale = Math.min(FIXED_WIDTH / img.width, FIXED_HEIGHT / img.height, 1);
+        const w = Math.max(1, Math.round(img.width * scale));
+        const h = Math.max(1, Math.round(img.height * scale));
+        const x = Math.floor((FIXED_WIDTH - w) / 2);
+        const y = Math.floor((FIXED_HEIGHT - h) / 2);
+        ctx.drawImage(img, x, y, w, h);
+    }
+
+    function loadFile(file, asPaste=false) {
+        if (!file) return;
+
+        const url=URL.createObjectURL(file);
+        const img=new Image();
+
+        img.onload=()=>{
+            URL.revokeObjectURL(url);
+
+            if(asPaste) {
+                const x=selection?selection.x:0;
+                const y=selection?selection.y:0;
+                const maxW=FIXED_WIDTH-x;
+                const maxH=FIXED_HEIGHT-y;
+                const scale=Math.min(maxW/img.width,maxH/img.height,1);
+                const w=Math.max(1,Math.round(img.width*scale));
+                const h=Math.max(1,Math.round(img.height*scale));
+                ctx.drawImage(img,x,y,w,h);
+                setSelection({x,y,w,h});
+                commitHistory();
+            } else {
+                drawImageFit(img);
+                fileName=(file.name || 'drawing.png').replace(/\.[^.]+$/, '') + '.png';
+                modified=false;
+                zoom=1;
+                clearSelectionOutline();
+                resetHistory();
+                updateSize();
+            }
+        };
+
+        img.src=url;
+    }
+
+    function downloadCanvas(name) {
+        let safe=(name||'drawing.png').trim();
+
+        if(!/\.png$/i.test(safe)) {
+            safe=safe.replace(/\.[^.]+$/,'')+'.png';
+        }
+
+        canvas.toBlob(blob=>{
+            if(!blob) return;
+
+            const a=document.createElement('a');
+            a.href=URL.createObjectURL(blob);
+            a.download=safe;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+
+            setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+        },'image/png');
+    }
+
+    function save() {
+        downloadCanvas(fileName);
+        modified=false;
+    }
+
+    function saveAs() {
+        showDialog('Save As', `
+            <div class="paint98-dialog-row"><label>File name:</label><input id="paint-save-name" type="text" value="${fileName.replace(/"/g,'&quot;')}"></div>
+            <div class="paint98-dialog-row"><label>Type:</label><select disabled><option>PNG Image</option></select></div>
+            <div class="paint98-dialog-actions"><button class="paint98-button" data-dialog="cancel">Cancel</button><button class="paint98-button" id="paint-save-ok">Save</button></div>
+        `,()=>{
+            document.getElementById('paint-save-ok').onclick=()=>{
+                fileName=document.getElementById('paint-save-name').value||'drawing.png';
+                downloadCanvas(fileName);
+                modified=false;
+                closeDialog();
+            };
+        });
+    }
+
+    function copySelection() {
+        if(!selection) return;
+        internalClipboard=ctx.getImageData(selection.x,selection.y,selection.w,selection.h);
+    }
+
+    function cutSelection() {
+        if(!selection) return;
+        copySelection();
+        ctx.fillStyle=bg;
+        ctx.fillRect(selection.x,selection.y,selection.w,selection.h);
+        commitHistory();
+    }
+
+    function pasteSelection() {
+        if(!internalClipboard) return;
+
+        const x=selection?selection.x:0;
+        const y=selection?selection.y:0;
+        ctx.putImageData(internalClipboard,x,y);
+
+        setSelection({
+            x,
+            y,
+            w:internalClipboard.width,
+            h:internalClipboard.height
+        });
+
+        commitHistory();
+    }
+
+    function clearSelected() {
+        if(!selection) return;
+        ctx.fillStyle=bg;
+        ctx.fillRect(selection.x,selection.y,selection.w,selection.h);
+        commitHistory();
+    }
+
+    function selectAll() {
+        setTool('select');
+        setSelection({x:0,y:0,w:FIXED_WIDTH,h:FIXED_HEIGHT});
+    }
+
+    function invertColors() {
+        const img=snapshot();
+        const d=img.data;
+
+        for(let i=0;i<d.length;i+=4) {
+            d[i]=255-d[i];
+            d[i+1]=255-d[i+1];
+            d[i+2]=255-d[i+2];
+        }
+
+        ctx.putImageData(img,0,0);
+        commitHistory();
+    }
+
+    function clearImage() {
+        ctx.fillStyle=bg;
+        ctx.fillRect(0,0,FIXED_WIDTH,FIXED_HEIGHT);
+        clearSelectionOutline();
+        commitHistory();
+    }
+
+    function flipRotateDialog() {
+        showDialog('Flip and Rotate', `
+            <div style="margin-bottom:6px">Flip or rotate:</div>
+            <label style="display:block;margin:5px"><input type="radio" name="fr" value="h" checked> Flip horizontal</label>
+            <label style="display:block;margin:5px"><input type="radio" name="fr" value="v"> Flip vertical</label>
+            <label style="display:block;margin:5px"><input type="radio" name="fr" value="90"> Rotate 90°</label>
+            <label style="display:block;margin:5px"><input type="radio" name="fr" value="180"> Rotate 180°</label>
+            <label style="display:block;margin:5px"><input type="radio" name="fr" value="270"> Rotate 270°</label>
+            <div style="margin-top:8px;font-size:11px;">The canvas always stays 780 × 480.</div>
+            <div class="paint98-dialog-actions"><button class="paint98-button" data-dialog="cancel">Cancel</button><button class="paint98-button" id="paint-fr-ok">OK</button></div>
+        `,()=>{
+            document.getElementById('paint-fr-ok').onclick=()=>{
+                const v=document.querySelector('input[name="fr"]:checked').value;
+                transformImage(v);
+                closeDialog();
+            };
+        });
+    }
+
+    function transformImage(mode) {
+        const source=document.createElement('canvas');
+        source.width=FIXED_WIDTH;
+        source.height=FIXED_HEIGHT;
+        source.getContext('2d').drawImage(canvas,0,0);
+
+        const transformed=document.createElement('canvas');
+        const tctx=transformed.getContext('2d');
+
+        if(mode==='90'||mode==='270') {
+            transformed.width=FIXED_HEIGHT;
+            transformed.height=FIXED_WIDTH;
+        } else {
+            transformed.width=FIXED_WIDTH;
+            transformed.height=FIXED_HEIGHT;
+        }
+
+        if(mode==='h') {
+            tctx.translate(transformed.width,0);
+            tctx.scale(-1,1);
+        } else if(mode==='v') {
+            tctx.translate(0,transformed.height);
+            tctx.scale(1,-1);
+        } else if(mode==='90') {
+            tctx.translate(transformed.width,0);
+            tctx.rotate(Math.PI/2);
+        } else if(mode==='180') {
+            tctx.translate(transformed.width,transformed.height);
+            tctx.rotate(Math.PI);
+        } else if(mode==='270') {
+            tctx.translate(0,transformed.height);
+            tctx.rotate(-Math.PI/2);
+        }
+
+        tctx.drawImage(source,0,0);
+
+        fillWhite();
+
+        const scale=Math.min(FIXED_WIDTH/transformed.width,FIXED_HEIGHT/transformed.height);
+        const w=Math.round(transformed.width*scale);
+        const h=Math.round(transformed.height*scale);
+        const x=Math.floor((FIXED_WIDTH-w)/2);
+        const y=Math.floor((FIXED_HEIGHT-h)/2);
+
+        ctx.drawImage(transformed,x,y,w,h);
+        clearSelectionOutline();
+        commitHistory();
+    }
+
+    function editColors() {
+        colorInput.value=fg;
+        colorInput.click();
+    }
+
+    function showDialog(title, body, afterOpen) {
+        dialogTitle.textContent=title;
+        dialogBody.innerHTML=body;
+        dialogBackdrop.classList.add('open');
+
+        dialogBody.querySelectorAll('[data-dialog="cancel"]').forEach(b=>{
+            b.onclick=closeDialog;
+        });
+
+        if(afterOpen) afterOpen();
+    }
+
+    function closeDialog() {
+        dialogBackdrop.classList.remove('open');
+        dialogBody.innerHTML='';
+    }
+
+    function closeMenus() {
+        document.querySelectorAll('.paint98-menu,.paint98-menu-button').forEach(el=>{
+            el.classList.remove('open');
+        });
+    }
+
+    function toggleMenu(name,button) {
+        const menu=document.getElementById('paint-menu-'+name);
+        const was=menu.classList.contains('open');
+        closeMenus();
+
+        if(!was) {
+            menu.classList.add('open');
+            button.classList.add('open');
+        }
+    }
+
+    function action(name) {
+        closeMenus();
+
+        switch(name) {
+            case 'new': newImage(); break;
+            case 'open': openInput.click(); break;
+            case 'save': save(); break;
+            case 'save-as': saveAs(); break;
+            case 'undo': undo(); break;
+            case 'repeat': redo(); break;
+            case 'cut': cutSelection(); break;
+            case 'copy': copySelection(); break;
+            case 'paste': pasteSelection(); break;
+            case 'clear-selection': clearSelected(); break;
+            case 'select-all': selectAll(); break;
+            case 'paste-from': pasteInput.click(); break;
+            case 'flip-rotate': flipRotateDialog(); break;
+            case 'invert': invertColors(); break;
+            case 'clear-image': clearImage(); break;
+            case 'draw-opaque':
+                drawOpaque=!drawOpaque;
+                opaqueCheck.textContent=drawOpaque?'✓':'';
+                renderToolOptions();
+                break;
+            case 'edit-colors': editColors(); break;
+        }
+    }
+
+    document.querySelectorAll('.paint98-tool').forEach(b=>{
+        b.addEventListener('click',()=>setTool(b.dataset.tool));
+    });
+
+    document.querySelectorAll('.paint98-menu-button').forEach(b=>{
+        b.addEventListener('click',e=>{
+            e.stopPropagation();
+            toggleMenu(b.dataset.menu,b);
+        });
+    });
+
+    document.querySelectorAll('.paint98-menu-item[data-action]').forEach(i=>{
+        i.addEventListener('click',()=>action(i.dataset.action));
+    });
+
+    app.addEventListener('click',e=>{
+        if(!e.target.closest('.paint98-menurow')) closeMenus();
+    });
+
+    canvas.addEventListener('pointerdown',beginPointer);
+    canvas.addEventListener('pointermove',movePointer);
+    canvas.addEventListener('pointerup',endPointer);
+    canvas.addEventListener('pointercancel',endPointer);
+    canvas.addEventListener('contextmenu',e=>e.preventDefault());
+    canvas.addEventListener('dblclick',e=>{
+        if(tool==='polygon') {
+            e.preventDefault();
+            finishPolygon();
+        }
+    });
+
+    openInput.addEventListener('change',()=>{
+        loadFile(openInput.files[0],false);
+        openInput.value='';
+    });
+
+    pasteInput.addEventListener('change',()=>{
+        loadFile(pasteInput.files[0],true);
+        pasteInput.value='';
+    });
+
+    colorInput.addEventListener('input',()=>{
+        fg=colorInput.value;
+        setColors();
+    });
+
+    dialogBackdrop.addEventListener('mousedown',e=>{
+        if(e.target===dialogBackdrop) closeDialog();
+    });
+
+    document.addEventListener('keydown',e=>{
+        const paintPage=document.getElementById('paint');
+        if(!paintPage.classList.contains('active')) return;
+
+        if(dialogBackdrop.classList.contains('open')) {
+            if(e.key==='Escape') {
+                e.preventDefault();
+                closeDialog();
+            }
+            return;
+        }
+
+        const k=e.key.toLowerCase();
+
+        if(e.ctrlKey&&k==='n') {
+            e.preventDefault();
+            newImage();
+        } else if(e.ctrlKey&&k==='o') {
+            e.preventDefault();
+            openInput.click();
+        } else if(e.ctrlKey&&k==='s') {
+            e.preventDefault();
+            save();
+        } else if(e.ctrlKey&&k==='z') {
+            e.preventDefault();
+            undo();
+        } else if((e.ctrlKey&&k==='y')||e.key==='F4') {
+            e.preventDefault();
+            redo();
+        } else if(e.ctrlKey&&k==='x') {
+            e.preventDefault();
+            cutSelection();
+        } else if(e.ctrlKey&&k==='c') {
+            e.preventDefault();
+            copySelection();
+        } else if(e.ctrlKey&&k==='v') {
+            e.preventDefault();
+            pasteSelection();
+        } else if(e.ctrlKey&&k==='a') {
+            e.preventDefault();
+            selectAll();
+        } else if(e.ctrlKey&&k==='i') {
+            e.preventDefault();
+            invertColors();
+        } else if(e.key==='Delete') {
+            e.preventDefault();
+            clearSelected();
+        } else if(e.key==='Escape') {
+            closeMenus();
+            clearSelectionOutline();
+        }
+    });
+
+    canvas.width=FIXED_WIDTH;
+    canvas.height=FIXED_HEIGHT;
+    fillWhite();
+    setupPalette();
+    setColors();
+    resetHistory();
+    setTool('pencil');
+    updateSize();
+})();
+
+
 function openPage(pageName, button) {
     document.querySelectorAll(".page").forEach(page => {
         page.classList.remove("active");
