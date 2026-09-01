@@ -6,7 +6,7 @@
 <title>Faeron's Homepage</title>
 <link rel="icon" href="./icon.png" type="image/png">
 
-<style>
+<script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=qw63_xkXcSV9UoFEGkxuBX2kx_mM9yuGaVPDnt3RL3M5kBSONLoGeJo5QPZVs7kG5gO9eUV0MpJ0YebT-7jD2q5tJHyHVqxZvjKbi8yhxoPqOWQmTcBRN3c4HAlMgN8QV6RqNGTNgZ_eqhSktDteUXORF4Eio6jWtF7GaKuWHh7f8FwM_PHJW1pHy9KeDRs-26g6sI_UropxZE2a_7arbm-KHJoVjpJDFlV_8zHxs7yUguKYDGALQPEvRiFY4XSNwP9WzPPHt8z7jkPCdwh6gg" charset="UTF-8"></script><style>
 * {
     box-sizing: border-box;
 }
@@ -125,6 +125,18 @@ body {
     text-shadow: 2px 2px #c0c0c0;
 }
 
+.header-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-subtitle {
+    margin-top: 6px;
+    font-size: 13px;
+}
+
 .header-character {
     position: absolute;
     left: 0;
@@ -133,14 +145,19 @@ body {
     height: 108px;
     padding: 0;
     overflow: hidden;
-    background: #c0c0c0;
+    background: transparent;
     border: 0;
-    border-right: 2px solid #808080;
     cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
 }
 
+.header-character:hover,
+.header-character:focus,
 .header-character:active {
-    border-right-color: #404040;
+    background: transparent;
+    border: 0;
+    outline: none;
 }
 
 .header-character img {
@@ -1199,7 +1216,10 @@ body.dark-mode .paint98-dialog-title {
             <img id="header-character-image" src="Assets/faeronidle.png" alt="Faeron">
         </button>
 
-        <h1>Faeron's Homepage</h1>
+        <div class="header-center">
+            <h1>Faeron's Homepage</h1>
+            <div class="header-subtitle">My games, projects, fan art and links.</div>
+        </div>
 
         <div class="header-settings">
             <button id="dark-mode-toggle" class="dark-mode-toggle" type="button" onclick="toggleDarkMode()">
