@@ -537,6 +537,28 @@ body.dark-mode img[src*="x/000000"] {
     filter: invert(1);
 }
 
+.online-counter {
+    margin: 0 7px 7px;
+    padding: 10px;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eeeeee;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+}
+
+body.dark-mode .online-counter {
+    background: #202020;
+    border-top-color: #555555;
+    border-left-color: #555555;
+    border-right-color: #050505;
+    border-bottom-color: #050505;
+}
+
 @media (max-width: 700px) {
     .site {
         margin-top: 80px;
@@ -773,6 +795,11 @@ body.dark-mode img[src*="x/000000"] {
             </a>
 
         </div>
+    </div>
+
+    <div class="online-counter" title="People currently viewing the site">
+        <script id="_wausua">var _wau = _wau || []; _wau.push(["small", "u39zkzx23f", "sua"]);</script>
+        <script async src="https://waust.at/s.js"></script>
     </div>
 
 </div>
