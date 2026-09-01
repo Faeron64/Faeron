@@ -285,12 +285,14 @@ a:visited {
     cursor: default;
 }
 
-#fanart-grid {
+#fanart-grid,
+#sneakpeaks-grid {
     column-count: 3;
     column-gap: 18px;
 }
 
-.fanart-item {
+.fanart-item,
+.sneakpeak-item {
     display: inline-block;
     width: 100%;
     margin: 0 0 18px;
@@ -304,12 +306,19 @@ a:visited {
     break-inside: avoid;
 }
 
-.fanart-item img {
+.fanart-item img,
+.sneakpeak-item img {
     display: block;
     width: 100%;
     height: auto;
     background: #ffffff;
     border: 1px solid #555555;
+}
+
+.sneakpeak-description {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: bold;
 }
 
 .artist {
@@ -469,7 +478,8 @@ body.dark-mode .welcome-box,
 body.dark-mode .game-card,
 body.dark-mode .music-empty,
 body.dark-mode .social-card,
-body.dark-mode .fanart-item {
+body.dark-mode .fanart-item,
+body.dark-mode .sneakpeak-item {
     background: #202020;
     border-top-color: #555555;
     border-left-color: #555555;
@@ -515,7 +525,8 @@ body.dark-mode .game-link.disabled {
 }
 
 /* Fan art itself is NOT inverted or darkened. */
-body.dark-mode .fanart-item img {
+body.dark-mode .fanart-item img,
+body.dark-mode .sneakpeak-item img {
     filter: none;
     background: #ffffff;
 }
@@ -557,7 +568,8 @@ body.dark-mode img[src*="x/000000"] {
         min-width: 33.333%;
     }
 
-    #fanart-grid {
+    #fanart-grid,
+    #sneakpeaks-grid {
         column-count: 2;
     }
 
@@ -567,7 +579,8 @@ body.dark-mode img[src*="x/000000"] {
 }
 
 @media (max-width: 430px) {
-    #fanart-grid {
+    #fanart-grid,
+    #sneakpeaks-grid {
         column-count: 1;
     }
 
@@ -609,6 +622,7 @@ body.dark-mode img[src*="x/000000"] {
         <button class="tab-button active" onclick="openPage('home', this)">Home</button>
         <button class="tab-button" onclick="openPage('games', this)">Games</button>
         <button class="tab-button" onclick="openPage('fanart', this)">Fan Art</button>
+        <button class="tab-button" onclick="openPage('sneakpeaks', this)">Sneak Peaks</button>
         <button class="tab-button" onclick="openPage('music', this)">Music</button>
         <button class="tab-button" onclick="openPage('socials', this)">Socials</button>
     </div>
@@ -674,6 +688,11 @@ body.dark-mode img[src*="x/000000"] {
     <div id="fanart" class="page">
         <h2>Fan Art</h2>
         <div id="fanart-grid">Loading fan art...</div>
+    </div>
+
+    <div id="sneakpeaks" class="page">
+        <h2>Sneak Peaks</h2>
+        <div id="sneakpeaks-grid">Loading sneak peaks...</div>
     </div>
 
     <div id="music" class="page">
@@ -806,11 +825,11 @@ const repoOwner = "Faeron64";
 const repoName = "Faeron";
 const branch = "main";
 
-async function loadFanArt() {
-    const grid = document.getElementById("fanart-grid");
+let repoTreePromise = null;
 
-    try {
-        const response = await fetch(
+async function getRepoTree() {
+    if (repoTreePromise === null) {
+        repoTreePromise = fetch(
             "https://api.github.com/repos/" +
             repoOwner +
             "/" +
@@ -818,13 +837,22 @@ async function loadFanArt() {
             "/git/trees/" +
             branch +
             "?recursive=1"
-        );
+        ).then(response => {
+            if (!response.ok) {
+                throw new Error("GitHub error: " + response.status);
+            }
+            return response.json();
+        });
+    }
 
-        if (!response.ok) {
-            throw new Error("GitHub error: " + response.status);
-        }
+    return repoTreePromise;
+}
 
-        const data = await response.json();
+async function loadFanArt() {
+    const grid = document.getElementById("fanart-grid");
+
+    try {
+        const data = await getRepoTree();
         const imageExtensions = /\.(png|jpg|jpeg|gif|webp)$/i;
 
         const images = data.tree.filter(file =>
@@ -850,6 +878,39 @@ async function loadFanArt() {
 
     } catch (error) {
         grid.innerHTML = "<p>Could not load fan art.</p>";
+    }
+}
+
+async function loadSneakPeaks() {
+    const grid = document.getElementById("sneakpeaks-grid");
+
+    try {
+        const data = await getRepoTree();
+        const imageExtensions = /\.(png|jpg|jpeg|gif|webp)$/i;
+
+        const images = data.tree.filter(file =>
+            file.type === "blob" &&
+            file.path.startsWith("sneakpeaks/") &&
+            imageExtensions.test(file.path)
+        );
+
+        images.sort((a, b) =>
+            a.path.localeCompare(b.path, undefined, { numeric: true })
+        );
+
+        grid.innerHTML = "";
+
+        if (images.length === 0) {
+            grid.innerHTML = "<p>No sneak peaks uploaded yet!</p>";
+            return;
+        }
+
+        images.forEach(file => {
+            createSneakPeakCard(file.path, grid);
+        });
+
+    } catch (error) {
+        grid.innerHTML = "<p>Could not load sneak peaks.</p>";
     }
 }
 
@@ -895,11 +956,35 @@ function createFanArtCard(path, grid) {
     grid.appendChild(card);
 }
 
+function createSneakPeakCard(path, grid) {
+    const relativePath = path.substring("sneakpeaks/".length);
+    const filename = relativePath.split("/").pop();
+
+    let description = removeExtension(filename);
+    description = description.replace(/_/g, " ");
+
+    const card = document.createElement("div");
+    card.className = "sneakpeak-item";
+
+    const image = document.createElement("img");
+    image.src = encodeURI(path);
+    image.alt = description;
+
+    const descriptionText = document.createElement("div");
+    descriptionText.className = "sneakpeak-description";
+    descriptionText.textContent = description;
+
+    card.appendChild(image);
+    card.appendChild(descriptionText);
+    grid.appendChild(card);
+}
+
 function removeExtension(filename) {
     return filename.replace(/\.[^/.]+$/, "");
 }
 
 loadFanArt();
+loadSneakPeaks();
 </script>
 
 </body>
