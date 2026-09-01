@@ -124,6 +124,31 @@ marquee {
     font-weight: bold;
 }
 
+.dark-mode-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    min-width: 105px;
+    padding: 7px 10px;
+    background: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #404040;
+    border-bottom: 2px solid #404040;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.dark-mode-toggle:active {
+    border-top: 2px solid #404040;
+    border-left: 2px solid #404040;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+}
+
 .tabs {
     display: flex;
     margin: 7px 7px 0;
@@ -353,6 +378,154 @@ a:visited {
     font-size: 16px;
 }
 
+/* DARK MODE */
+body.dark-mode {
+    color: #e8e8e8;
+}
+
+body.dark-mode #background-gif {
+    filter: invert(1);
+}
+
+body.dark-mode .site {
+    background: #252525;
+    border-top-color: #5f5f5f;
+    border-left-color: #5f5f5f;
+    border-right-color: #080808;
+    border-bottom-color: #080808;
+    box-shadow: 8px 8px 0 rgba(0,0,0,0.7);
+}
+
+/* The hat stays the same on purpose. */
+body.dark-mode .hat-crown,
+body.dark-mode .hat-brim {
+    background: #111116;
+    border-color: #000000;
+}
+
+body.dark-mode .hat-stripe {
+    background: #ffffff;
+    border-top-color: #888888;
+    border-bottom-color: #888888;
+}
+
+body.dark-mode .header {
+    background: #141414;
+    border-top-color: #050505;
+    border-left-color: #050505;
+    border-right-color: #555555;
+    border-bottom-color: #555555;
+}
+
+body.dark-mode .header h1,
+body.dark-mode h2 {
+    color: #8c8cff;
+    text-shadow: 2px 2px #000000;
+}
+
+body.dark-mode marquee {
+    color: #ffffff;
+}
+
+body.dark-mode .dark-mode-toggle,
+body.dark-mode .tab-button,
+body.dark-mode .game-link {
+    background: #303030;
+    color: #f0f0f0;
+    border-top-color: #666666;
+    border-left-color: #666666;
+    border-right-color: #080808;
+    border-bottom-color: #080808;
+}
+
+body.dark-mode .dark-mode-toggle:active,
+body.dark-mode .tab-button.active,
+body.dark-mode .game-link:active {
+    border-top-color: #080808;
+    border-left-color: #080808;
+    border-right-color: #666666;
+    border-bottom-color: #666666;
+}
+
+body.dark-mode .tab-button:hover,
+body.dark-mode .game-link:hover {
+    background: #454545;
+}
+
+body.dark-mode .tab-button.active {
+    background: #151515;
+    color: #ffffff;
+}
+
+body.dark-mode .page {
+    background: #141414;
+    border-top-color: #050505;
+    border-left-color: #050505;
+    border-right-color: #555555;
+    border-bottom-color: #555555;
+}
+
+body.dark-mode .welcome-box,
+body.dark-mode .game-card,
+body.dark-mode .music-empty,
+body.dark-mode .social-card,
+body.dark-mode .fanart-item {
+    background: #202020;
+    border-top-color: #555555;
+    border-left-color: #555555;
+    border-right-color: #050505;
+    border-bottom-color: #050505;
+}
+
+body.dark-mode .news-box {
+    background: #182534;
+    border-top-color: #4d5f72;
+    border-left-color: #4d5f72;
+    border-right-color: #050505;
+    border-bottom-color: #050505;
+}
+
+body.dark-mode .social-card {
+    color: #eeeeee !important;
+}
+
+body.dark-mode .social-card:hover {
+    background: #2c2c2c;
+}
+
+body.dark-mode .social-subtitle,
+body.dark-mode .description {
+    color: #b8b8b8;
+}
+
+body.dark-mode a {
+    color: #8ea7ff;
+}
+
+body.dark-mode a:visited {
+    color: #c39cff;
+}
+
+body.dark-mode .game-link {
+    color: #9cb2ff !important;
+}
+
+body.dark-mode .game-link.disabled {
+    color: #888888 !important;
+}
+
+/* Fan art itself is NOT inverted or darkened. */
+body.dark-mode .fanart-item img {
+    filter: none;
+    background: #ffffff;
+}
+
+/* Keep black-only social logos visible on dark cards. */
+body.dark-mode img[src*="github/000000"],
+body.dark-mode img[src*="x/000000"] {
+    filter: invert(1);
+}
+
 @media (max-width: 700px) {
     .site {
         margin-top: 80px;
@@ -365,6 +538,14 @@ a:visited {
 
     .header h1 {
         font-size: 34px;
+    }
+
+    .dark-mode-toggle {
+        top: 8px;
+        right: 8px;
+        min-width: 92px;
+        padding: 6px 8px;
+        font-size: 11px;
     }
 
     .tabs {
@@ -393,6 +574,10 @@ a:visited {
     .tab-button {
         min-width: 50%;
     }
+
+    .header {
+        padding-top: 50px;
+    }
 }
 </style>
 </head>
@@ -411,6 +596,10 @@ a:visited {
     </div>
 
     <div class="header">
+        <button id="dark-mode-toggle" class="dark-mode-toggle" type="button" onclick="toggleDarkMode()">
+            Dark Mode
+        </button>
+
         <h1>Faeron's Homepage</h1>
         <div class="header-subtitle">My games, projects, fan art and links.</div>
         <marquee>WELCOME TO MY WEBSITE, WHERE YOU CAN CLICK THINGS! ^_^</marquee>
@@ -582,6 +771,36 @@ function openPage(pageName, button) {
     document.getElementById(pageName).classList.add("active");
     button.classList.add("active");
 }
+
+function updateDarkModeButton() {
+    const button = document.getElementById("dark-mode-toggle");
+
+    if (document.body.classList.contains("dark-mode")) {
+        button.textContent = "Light Mode";
+    } else {
+        button.textContent = "Dark Mode";
+    }
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+
+    if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("faeron-theme", "dark");
+    } else {
+        localStorage.setItem("faeron-theme", "light");
+    }
+
+    updateDarkModeButton();
+}
+
+const savedTheme = localStorage.getItem("faeron-theme");
+
+if (savedTheme === "dark") {
+    document.body.classList.add("dark-mode");
+}
+
+updateDarkModeButton();
 
 const repoOwner = "Faeron64";
 const repoName = "Faeron";
