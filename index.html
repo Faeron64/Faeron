@@ -6,7 +6,7 @@
 <title>Faeron's Homepage</title>
 <link rel="icon" href="./icon.png" type="image/png">
 
-<script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=VWlUev1ivqUFo8-Xvb1R74P4HQ7jnfzfZDK0wvpsd_Py7rq29_GfZwwka6_AE8aEJM8bkALWJDGu8oE0lLjOzsiIaaPTIC-tgXoR4laYo7S9PXZ2-hEdhNsl71jTcX9l34SQnJBYvN9Nj5rbEpYsOK84IBgdO2njsogGiSxNz_VALnFsi8mmBZZY0bSEdf6J-AQoLaFu7Cdy93SW63zvoVGCYH7hJb2hRY-TxjEXvqIVEVnYVvtmaVLRzAKf1ArTCiX4pUklKUNZMNAZot6CVmETRViXVUhTMwnUiD7Nrk_Rn7wU9z-5qUnZUJPQuEx5aNPTY3S6qZvJWxmJWBmUp-RGK-BJ08ZDB_S4Z82IJYQ" charset="UTF-8"></script><style>
+<style>
 * {
     box-sizing: border-box;
 }
@@ -218,6 +218,11 @@ a:visited {
     border-left: 2px solid #808080;
     border-right: 2px solid #ffffff;
     border-bottom: 2px solid #ffffff;
+}
+
+#aboutme-text {
+    white-space: pre-wrap;
+    line-height: 1.5;
 }
 
 .news-box {
@@ -651,19 +656,10 @@ body.dark-mode .online-counter {
     </div>
 
     <div id="home" class="page active">
-        <h2>Welcome!</h2>
+        <h2>About Me</h2>
 
         <div class="welcome-box">
-            <b>Hello!</b>
-            <p>I'm Faeron, and I make games.</p>
-            <p>I used to use ROBLOX for all my projects.</p>
-            <p>But now I mainly use Godot and Polytoria.</p>
-            <p>This site is where I keep my games, projects, fan art, and other stuff.</p>
-        </div>
-
-        <div class="news-box">
-            <b>Site News:</b>
-            <p>Welcome to the improved website!</p>
+            <div id="aboutme-text">Loading about me...</div>
         </div>
 
         <div class="social-grid home-socials">
@@ -847,6 +843,26 @@ if (savedTheme === "dark") {
 }
 
 updateDarkModeButton();
+
+async function loadAboutMe() {
+    const aboutMe = document.getElementById("aboutme-text");
+
+    try {
+        const response = await fetch("Assets/aboutme.txt", {
+            cache: "no-cache"
+        });
+
+        if (!response.ok) {
+            throw new Error("Could not load aboutme.txt");
+        }
+
+        aboutMe.textContent = await response.text();
+    } catch (error) {
+        aboutMe.textContent = "Could not load aboutme.txt.";
+    }
+}
+
+loadAboutMe();
 
 const repoOwner = "Faeron64";
 const repoName = "Faeron";
