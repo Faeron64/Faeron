@@ -1,6 +1,9 @@
 Hello!
 
-I'm Faeron, and I make games.
+I'm Faeron, and I make games that I would want to play myself.
+
 I used to use ROBLOX for all my projects.
-But now I mainly use Godot and Polytoria.
+
+But now I mainly use Godot and sometimes Polytoria.
+
 This site is where I keep my games, projects, fan art, and other stuff.
