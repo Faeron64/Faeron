@@ -36,10 +36,33 @@ body {
     pointer-events: none;
 }
 
+#background-objects {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: -99;
+    pointer-events: none;
+}
+
+.background-object {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1px;
+    height: auto;
+    max-width: none;
+    transform-origin: center center;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    pointer-events: none;
+    user-select: none;
+    will-change: left, top, width, opacity;
+}
+
 #background-tint {
     position: fixed;
     inset: 0;
-    z-index: -99;
+    z-index: -98;
     pointer-events: none;
     background: rgba(255, 255, 255, 0.10);
     transition: background-color 1s ease;
@@ -1228,6 +1251,7 @@ body.dark-mode .paint98-dialog-title {
 <body>
 
 <img id="background-gif" src="bggif" alt="">
+<div id="background-objects" aria-hidden="true"></div>
 <div id="background-tint" aria-hidden="true"></div>
 
 <div class="site">
@@ -1263,7 +1287,7 @@ body.dark-mode .paint98-dialog-title {
         <button class="tab-button active" onclick="openPage('home', this)">Home</button>
         <button class="tab-button" onclick="openPage('games', this)">Games</button>
         <button class="tab-button" onclick="openPage('fanart', this)">Fan Art</button>
-        <button class="tab-button" onclick="openPage('sneakpeaks', this)">Sneak Peaks</button>
+        <button class="tab-button" onclick="openPage('sneakpeaks', this)">Sneak Peeks</button>
         <button class="tab-button" onclick="openPage('paint', this)">Paint</button>
         <button class="tab-button" onclick="openPage('socials', this)">Socials</button>
     </div>
@@ -1323,8 +1347,8 @@ body.dark-mode .paint98-dialog-title {
     </div>
 
     <div id="sneakpeaks" class="page">
-        <h2>Sneak Peaks</h2>
-        <div id="sneakpeaks-grid">Loading sneak peaks...</div>
+        <h2>Sneak Peeks</h2>
+        <div id="sneakpeaks-grid">Loading sneak peeks...</div>
     </div>
 
     <div id="paint" class="page paint-page">
@@ -3024,6 +3048,129 @@ async function getRepoTree() {
     return repoTreePromise;
 }
 
+const backgroundObjectLayer = document.getElementById("background-objects");
+let backgroundObjectFiles = [];
+let backgroundObjectTimer = null;
+let backgroundObjectRunning = true;
+
+async function loadBackgroundObjects() {
+    if (!backgroundObjectLayer) return;
+
+    try {
+        const data = await getRepoTree();
+        const imageExtensions = /\.(png|jpg|jpeg|gif|webp)$/i;
+
+        backgroundObjectFiles = data.tree
+            .filter(file =>
+                file.type === "blob" &&
+                file.path.startsWith("Objects/") &&
+                imageExtensions.test(file.path)
+            )
+            .map(file => file.path);
+
+        if (backgroundObjectFiles.length > 0) {
+            scheduleNextBackgroundObject(true);
+        }
+    } catch (error) {
+        // Decorative effect only. If GitHub cannot be reached, the site still works normally.
+    }
+}
+
+function scheduleNextBackgroundObject(first = false) {
+    if (!backgroundObjectRunning || backgroundObjectFiles.length === 0) return;
+
+    if (backgroundObjectTimer !== null) {
+        clearTimeout(backgroundObjectTimer);
+    }
+
+    // Keep the background objects rare: one every 30 to 120 seconds.
+    const delay = 30000 + Math.random() * 90000;
+
+    backgroundObjectTimer = setTimeout(() => {
+        spawnBackgroundObject();
+        scheduleNextBackgroundObject(false);
+    }, delay);
+}
+
+function spawnBackgroundObject() {
+    if (!backgroundObjectLayer || backgroundObjectFiles.length === 0) return;
+
+    const path = backgroundObjectFiles[
+        Math.floor(Math.random() * backgroundObjectFiles.length)
+    ];
+
+    const image = document.createElement("img");
+    image.className = "background-object";
+    image.src = encodeURI(path);
+    image.alt = "";
+    image.draggable = false;
+
+    // A point in 3D space around the tunnel's centre line. As Z approaches the
+    // camera, both its distance from the vanishing point and its size increase.
+    // This is what makes it match the perspective of the checker tunnel.
+    const worldX = (Math.random() * 2 - 1) * 0.82;
+    const worldY = (Math.random() * 2 - 1) * 0.52;
+    const worldSize = 0.68 + Math.random() * 0.54;
+    const startZ = 7.0 + Math.random() * 1.8;
+    const endZ = 0.28 + Math.random() * 0.12;
+    const duration = 4800 + Math.random() * 2200;
+    const startTime = performance.now();
+
+    backgroundObjectLayer.appendChild(image);
+
+    function animate(now) {
+        if (!image.isConnected) return;
+
+        const t = Math.min(1, (now - startTime) / duration);
+
+        // Constant forward motion in 3D. The projection itself creates the
+        // accelerating-looking motion seen in the background GIF.
+        const z = startZ + (endZ - startZ) * t;
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const minSide = Math.min(viewportWidth, viewportHeight);
+        const focalLength = minSide * 0.30;
+        const projection = focalLength / z;
+
+        const x = viewportWidth * 0.5 + worldX * projection;
+        const y = viewportHeight * 0.5 + worldY * projection;
+        const width = Math.max(2, worldSize * projection);
+
+        // Fade gently out right as it reaches the "camera" so it does not pop away.
+        let opacity = 1;
+        if (t < 0.08) opacity = t / 0.08;
+        if (t > 0.90) opacity = (1 - t) / 0.10;
+
+        image.style.left = x + "px";
+        image.style.top = y + "px";
+        image.style.width = width + "px";
+        image.style.opacity = Math.max(0, Math.min(1, opacity));
+        image.style.transform = "translate(-50%, -50%)";
+
+        if (t < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            image.remove();
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+// Stop spending animation work while the tab is hidden, then resume naturally.
+document.addEventListener("visibilitychange", () => {
+    backgroundObjectRunning = !document.hidden;
+
+    if (backgroundObjectRunning) {
+        scheduleNextBackgroundObject(true);
+    } else if (backgroundObjectTimer !== null) {
+        clearTimeout(backgroundObjectTimer);
+        backgroundObjectTimer = null;
+    }
+});
+
+loadBackgroundObjects();
+
 async function loadFanArt() {
     const grid = document.getElementById("fanart-grid");
 
@@ -3077,7 +3224,7 @@ async function loadSneakPeaks() {
         grid.innerHTML = "";
 
         if (images.length === 0) {
-            grid.innerHTML = "<p>No sneak peaks uploaded yet!</p>";
+            grid.innerHTML = "<p>No sneak peeks uploaded yet!</p>";
             return;
         }
 
@@ -3086,7 +3233,7 @@ async function loadSneakPeaks() {
         });
 
     } catch (error) {
-        grid.innerHTML = "<p>Could not load sneak peaks.</p>";
+        grid.innerHTML = "<p>Could not load sneak peeks.</p>";
     }
 }
 
