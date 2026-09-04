@@ -1022,6 +1022,18 @@ body.dark-mode .paint98 {
     z-index: 4;
 }
 
+.paint98-selection-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 780px;
+    height: 480px;
+    pointer-events: none;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    z-index: 5;
+}
+
 .paint98-bottom {
     margin-top: 4px;
     display: grid;
@@ -1383,6 +1395,7 @@ body.dark-mode .paint98-dialog-title {
                     <div class="paint98-workspace" id="paint-workspace">
                         <div class="paint98-canvas-holder" id="paint-canvas-holder">
                             <canvas id="paint-canvas" width="780" height="480"></canvas>
+                            <canvas id="paint-selection-overlay" class="paint98-selection-overlay" width="780" height="480" aria-hidden="true"></canvas>
                             <div class="paint98-selection" id="paint-selection"></div>
                         </div>
                     </div>
@@ -1520,6 +1533,10 @@ body.dark-mode .paint98-dialog-title {
 
     const canvas = document.getElementById('paint-canvas');
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    ctx.imageSmoothingEnabled = false;
+    const selectionOverlay = document.getElementById('paint-selection-overlay');
+    const selectionOverlayCtx = selectionOverlay.getContext('2d', { willReadFrequently: true });
+    selectionOverlayCtx.imageSmoothingEnabled = false;
     const selectionEl = document.getElementById('paint-selection');
     const statusEl = document.getElementById('paint-status');
     const coordsEl = document.getElementById('paint-coords');
@@ -1585,6 +1602,7 @@ body.dark-mode .paint98-dialog-title {
     let selectionPixels = null;
     let selectionMoveBase = null;
     let selectionMoveOrigin = null;
+    let freeSelectPath = [];
 
     function fillWhite() {
         ctx.save();
@@ -1596,6 +1614,8 @@ body.dark-mode .paint98-dialog-title {
     function updateSize() {
         canvas.style.width = (FIXED_WIDTH * zoom) + 'px';
         canvas.style.height = (FIXED_HEIGHT * zoom) + 'px';
+        selectionOverlay.style.width = (FIXED_WIDTH * zoom) + 'px';
+        selectionOverlay.style.height = (FIXED_HEIGHT * zoom) + 'px';
         sizeEl.textContent = 'Canvas: 780 × 480';
         updateSelectionDisplay();
     }
@@ -1675,10 +1695,13 @@ body.dark-mode .paint98-dialog-title {
         selectionPixels=null;
         selectionMoveBase=null;
         selectionMoveOrigin=null;
+        freeSelectPath=[];
+        clearSelectionOverlay();
         document.querySelectorAll('.paint98-tool').forEach(b => b.classList.toggle('active', b.dataset.tool === tool));
         statusEl.textContent = toolStatuses[tool] || '';
         renderToolOptions();
         if (tool !== 'select' && tool !== 'free-select') clearSelectionOutline();
+        else updateSelectionDisplay();
     }
 
     function optionButton(label, value, active, handler, extraClass='') {
@@ -1791,18 +1814,49 @@ body.dark-mode .paint98-dialog-title {
         return e && e.button === 2 ? bg : fg;
     }
 
-    function drawFreeLine(a,b,color,width) {
-        ctx.save();
-        ctx.strokeStyle=color;
+    function walkPixelLine(a,b,visit) {
+        let x0=a.x|0, y0=a.y|0, x1=b.x|0, y1=b.y|0;
+        const dx=Math.abs(x1-x0), sx=x0<x1?1:-1;
+        const dy=-Math.abs(y1-y0), sy=y0<y1?1:-1;
+        let err=dx+dy;
+
+        while (true) {
+            visit(x0,y0);
+            if (x0===x1 && y0===y1) break;
+            const e2=2*err;
+            if (e2>=dy) { err+=dy; x0+=sx; }
+            if (e2<=dx) { err+=dx; y0+=sy; }
+        }
+    }
+
+    function drawPencilLine(a,b,color) {
         ctx.fillStyle=color;
-        ctx.lineWidth=width;
-        ctx.lineCap='round';
-        ctx.lineJoin='round';
-        ctx.beginPath();
-        ctx.moveTo(a.x+.5,a.y+.5);
-        ctx.lineTo(b.x+.5,b.y+.5);
-        ctx.stroke();
-        ctx.restore();
+        walkPixelLine(a,b,(x,y)=>ctx.fillRect(x,y,1,1));
+    }
+
+    function stampBrush(x,y,color,size) {
+        ctx.fillStyle=color;
+        if (size<=1) {
+            ctx.fillRect(x,y,1,1);
+            return;
+        }
+
+        const radius=Math.max(1,size/2);
+        const min=-Math.floor(size/2);
+        const max=min+size-1;
+        for (let oy=min;oy<=max;oy++) {
+            for (let ox=min;ox<=max;ox++) {
+                const cx=ox+0.5;
+                const cy=oy+0.5;
+                if (cx*cx+cy*cy <= radius*radius+0.25) {
+                    ctx.fillRect(x+ox,y+oy,1,1);
+                }
+            }
+        }
+    }
+
+    function drawBrushLine(a,b,color,size) {
+        walkPixelLine(a,b,(x,y)=>stampBrush(x,y,color,size));
     }
 
     function drawEraser(p) {
@@ -1833,10 +1887,108 @@ body.dark-mode .paint98-dialog-title {
     }
 
     function pointInSelection(p) {
-        return !!selection &&
-            p.x >= selection.x && p.y >= selection.y &&
-            p.x < selection.x + selection.w &&
-            p.y < selection.y + selection.h;
+        if (!selection ||
+            p.x < selection.x || p.y < selection.y ||
+            p.x >= selection.x + selection.w || p.y >= selection.y + selection.h) return false;
+
+        if (!selection.mask) return true;
+        const lx=p.x-selection.x;
+        const ly=p.y-selection.y;
+        return !!selection.mask[ly*selection.w+lx];
+    }
+
+    function polygonBounds(path) {
+        let minX=FIXED_WIDTH-1,minY=FIXED_HEIGHT-1,maxX=0,maxY=0;
+        path.forEach(p=>{
+            minX=Math.min(minX,p.x); minY=Math.min(minY,p.y);
+            maxX=Math.max(maxX,p.x); maxY=Math.max(maxY,p.y);
+        });
+        return {x:minX,y:minY,w:maxX-minX+1,h:maxY-minY+1};
+    }
+
+    function pointInsidePolygon(x,y,path) {
+        let inside=false;
+        for (let i=0,j=path.length-1;i<path.length;j=i++) {
+            const a=path[i], b=path[j];
+            const intersects=((a.y>y)!==(b.y>y)) &&
+                (x < (b.x-a.x)*(y-a.y)/((b.y-a.y)||1e-9)+a.x);
+            if (intersects) inside=!inside;
+        }
+        return inside;
+    }
+
+    function makeFreeSelection(path) {
+        if (!path || path.length<3) return null;
+        const rect=polygonBounds(path);
+        const mask=new Uint8Array(rect.w*rect.h);
+        let count=0;
+        for (let y=0;y<rect.h;y++) {
+            for (let x=0;x<rect.w;x++) {
+                if (pointInsidePolygon(rect.x+x+0.5,rect.y+y+0.5,path)) {
+                    mask[y*rect.w+x]=1;
+                    count++;
+                }
+            }
+        }
+        if (!count) return null;
+        return {x:rect.x,y:rect.y,w:rect.w,h:rect.h,mask,path:path.map(p=>({x:p.x,y:p.y}))};
+    }
+
+    function selectionPixelEnabled(sel,x,y) {
+        return !sel.mask || !!sel.mask[y*sel.w+x];
+    }
+
+    function captureSelectionPixels(sel) {
+        return {
+            image:ctx.getImageData(sel.x,sel.y,sel.w,sel.h),
+            w:sel.w,
+            h:sel.h,
+            mask:sel.mask ? new Uint8Array(sel.mask) : null
+        };
+    }
+
+    function fillSelectionPixels(sel,color) {
+        const rgba=cssColorToRgba(color);
+        const img=ctx.getImageData(sel.x,sel.y,sel.w,sel.h);
+        for (let y=0;y<sel.h;y++) for (let x=0;x<sel.w;x++) {
+            if (!selectionPixelEnabled(sel,x,y)) continue;
+            const i=(y*sel.w+x)*4;
+            img.data[i]=rgba[0]; img.data[i+1]=rgba[1]; img.data[i+2]=rgba[2]; img.data[i+3]=255;
+        }
+        ctx.putImageData(img,sel.x,sel.y);
+    }
+
+    function blitSelectionPixels(data,dx,dy,transparentColor=null) {
+        const out=ctx.getImageData(dx,dy,data.w,data.h);
+        const src=data.image.data;
+        const dst=out.data;
+        const transparent=transparentColor ? cssColorToRgba(transparentColor) : null;
+
+        for (let y=0;y<data.h;y++) for (let x=0;x<data.w;x++) {
+            if (data.mask && !data.mask[y*data.w+x]) continue;
+            const i=(y*data.w+x)*4;
+            if (transparent && src[i]===transparent[0] && src[i+1]===transparent[1] && src[i+2]===transparent[2]) continue;
+            dst[i]=src[i]; dst[i+1]=src[i+1]; dst[i+2]=src[i+2]; dst[i+3]=255;
+        }
+        ctx.putImageData(out,dx,dy);
+    }
+
+    function clearSelectionOverlay() {
+        selectionOverlayCtx.clearRect(0,0,FIXED_WIDTH,FIXED_HEIGHT);
+    }
+
+    function drawOverlayPixel(x,y,index) {
+        selectionOverlayCtx.fillStyle=(index%2===0)?'#000000':'#ffffff';
+        selectionOverlayCtx.fillRect(x,y,1,1);
+    }
+
+    function drawOverlayPath(path,closed=false) {
+        clearSelectionOverlay();
+        if (!path || path.length<2) return;
+        let n=0;
+        const segment=(a,b)=>walkPixelLine(a,b,(x,y)=>drawOverlayPixel(x,y,n++));
+        for (let i=1;i<path.length;i++) segment(path[i-1],path[i]);
+        if (closed && path.length>2) segment(path[path.length-1],path[0]);
     }
 
     function applyShapeStyles(color) {
@@ -1909,14 +2061,25 @@ body.dark-mode .paint98-dialog-title {
 
     function clearSelectionOutline() {
         selection=null;
+        freeSelectPath=[];
         selectionEl.style.display='none';
+        clearSelectionOverlay();
     }
 
     function updateSelectionDisplay() {
         if (!selection) {
             selectionEl.style.display='none';
+            clearSelectionOverlay();
             return;
         }
+
+        if (selection.mask && selection.path) {
+            selectionEl.style.display='none';
+            drawOverlayPath(selection.path,true);
+            return;
+        }
+
+        clearSelectionOverlay();
         selectionEl.style.display='block';
         selectionEl.style.left=(selection.x*zoom+1)+'px';
         selectionEl.style.top=(selection.y*zoom+1)+'px';
@@ -2008,14 +2171,23 @@ body.dark-mode .paint98-dialog-title {
             if (pointInSelection(p)) {
                 movingSelection=true;
                 selectionMoveOrigin={x:selection.x,y:selection.y};
-                selectionPixels=ctx.getImageData(selection.x,selection.y,selection.w,selection.h);
+                selectionPixels=captureSelectionPixels(selection);
                 selectionMoveBase=snapshot();
                 start=p;
             } else {
                 movingSelection=false;
                 selectionPixels=null;
                 selectionMoveBase=null;
-                setSelection({x:p.x,y:p.y,w:1,h:1});
+                if (tool==='free-select') {
+                    selection=null;
+                    selectionEl.style.display='none';
+                    freeSelectPath=[p];
+                    drawOverlayPath(freeSelectPath,false);
+                } else {
+                    freeSelectPath=[];
+                    clearSelectionOverlay();
+                    setSelection({x:p.x,y:p.y,w:1,h:1});
+                }
                 start=p;
             }
 
@@ -2027,11 +2199,8 @@ body.dark-mode .paint98-dialog-title {
         previewBase=snapshot();
         canvas.setPointerCapture(e.pointerId);
 
-        if (tool==='pencil') {
-            ctx.fillStyle=color;
-            ctx.fillRect(p.x,p.y,1,1);
-        }
-        if (tool==='brush') drawFreeLine(p,p,color,brushSize);
+        if (tool==='pencil') drawPencilLine(p,p,color);
+        if (tool==='brush') drawBrushLine(p,p,color,brushSize);
         if (tool==='eraser') drawEraser(p);
         if (tool==='airbrush') spray(p,color);
     }
@@ -2044,8 +2213,8 @@ body.dark-mode .paint98-dialog-title {
 
         const color = (e.buttons & 2) ? bg : fg;
 
-        if (tool==='pencil') drawFreeLine(last,p,color,1);
-        else if (tool==='brush') drawFreeLine(last,p,color,brushSize);
+        if (tool==='pencil') drawPencilLine(last,p,color);
+        else if (tool==='brush') drawBrushLine(last,p,color,brushSize);
         else if (tool==='eraser') drawEraser(p);
         else if (tool==='airbrush') spray(p,color);
         else if (tool==='select'||tool==='free-select') {
@@ -2056,12 +2225,20 @@ body.dark-mode .paint98-dialog-title {
                 const maxY=FIXED_HEIGHT-selection.h;
                 const nx=Math.max(0,Math.min(maxX,selectionMoveOrigin.x+dx));
                 const ny=Math.max(0,Math.min(maxY,selectionMoveOrigin.y+dy));
+                const shiftX=nx-selection.x;
+                const shiftY=ny-selection.y;
 
                 ctx.putImageData(selectionMoveBase,0,0);
-                ctx.fillStyle=bg;
-                ctx.fillRect(selectionMoveOrigin.x,selectionMoveOrigin.y,selection.w,selection.h);
-                ctx.putImageData(selectionPixels,nx,ny);
-                setSelection({x:nx,y:ny,w:selection.w,h:selection.h});
+                fillSelectionPixels({x:selectionMoveOrigin.x,y:selectionMoveOrigin.y,w:selection.w,h:selection.h,mask:selection.mask},bg);
+                blitSelectionPixels(selectionPixels,nx,ny,drawOpaque?null:bg);
+
+                const nextSelection={...selection,x:nx,y:ny};
+                if (selection.path) nextSelection.path=selection.path.map(q=>({x:q.x+shiftX,y:q.y+shiftY}));
+                setSelection(nextSelection);
+            } else if (tool==='free-select') {
+                const previous=freeSelectPath[freeSelectPath.length-1];
+                if (!previous || previous.x!==p.x || previous.y!==p.y) freeSelectPath.push(p);
+                drawOverlayPath(freeSelectPath,false);
             } else {
                 setSelection(normalizeRect(start,p));
             }
@@ -2088,6 +2265,12 @@ body.dark-mode .paint98-dialog-title {
             commitHistory();
         } else if ((tool==='select'||tool==='free-select') && movingSelection) {
             commitHistory();
+        } else if (tool==='free-select' && !movingSelection) {
+            const previous=freeSelectPath[freeSelectPath.length-1];
+            if (!previous || previous.x!==p.x || previous.y!==p.y) freeSelectPath.push(p);
+            const made=makeFreeSelection(freeSelectPath);
+            if (made) setSelection(made); else clearSelectionOutline();
+            freeSelectPath=[];
         }
 
         drawing=false;
@@ -2294,14 +2477,13 @@ body.dark-mode .paint98-dialog-title {
 
     function copySelection() {
         if(!selection) return;
-        internalClipboard=ctx.getImageData(selection.x,selection.y,selection.w,selection.h);
+        internalClipboard=captureSelectionPixels(selection);
     }
 
     function cutSelection() {
         if(!selection) return;
         copySelection();
-        ctx.fillStyle=bg;
-        ctx.fillRect(selection.x,selection.y,selection.w,selection.h);
+        fillSelectionPixels(selection,bg);
         commitHistory();
     }
 
@@ -2310,13 +2492,14 @@ body.dark-mode .paint98-dialog-title {
 
         const x=selection?selection.x:0;
         const y=selection?selection.y:0;
-        ctx.putImageData(internalClipboard,x,y);
+        blitSelectionPixels(internalClipboard,x,y,drawOpaque?null:bg);
 
         setSelection({
             x,
             y,
-            w:internalClipboard.width,
-            h:internalClipboard.height
+            w:internalClipboard.w,
+            h:internalClipboard.h,
+            mask:internalClipboard.mask ? new Uint8Array(internalClipboard.mask) : null
         });
 
         commitHistory();
@@ -2324,8 +2507,7 @@ body.dark-mode .paint98-dialog-title {
 
     function clearSelected() {
         if(!selection) return;
-        ctx.fillStyle=bg;
-        ctx.fillRect(selection.x,selection.y,selection.w,selection.h);
+        fillSelectionPixels(selection,bg);
         commitHistory();
     }
 
