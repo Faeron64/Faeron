@@ -56,7 +56,7 @@ body {
     image-rendering: crisp-edges;
     pointer-events: none;
     user-select: none;
-    will-change: left, top, width, opacity;
+    will-change: left, top, width, height, opacity;
 }
 
 #background-tint {
@@ -3083,8 +3083,8 @@ function scheduleNextBackgroundObject(first = false) {
         clearTimeout(backgroundObjectTimer);
     }
 
-    // Keep the background objects rare: one every 30 to 120 seconds.
-    const delay = 30000 + Math.random() * 90000;
+    // Keep the background objects rare: one every 30 to 60 seconds.
+    const delay = 30000 + Math.random() * 30000;
 
     backgroundObjectTimer = setTimeout(() => {
         spawnBackgroundObject();
@@ -3104,16 +3104,19 @@ function spawnBackgroundObject() {
     image.src = encodeURI(path);
     image.alt = "";
     image.draggable = false;
+    image.style.imageRendering = "pixelated";
 
-    // A point in 3D space around the tunnel's centre line. As Z approaches the
-    // camera, both its distance from the vanishing point and its size increase.
-    // This is what makes it match the perspective of the checker tunnel.
-    const worldX = (Math.random() * 2 - 1) * 0.82;
-    const worldY = (Math.random() * 2 - 1) * 0.52;
-    const worldSize = 0.68 + Math.random() * 0.54;
-    const startZ = 7.0 + Math.random() * 1.8;
-    const endZ = 0.28 + Math.random() * 0.12;
-    const duration = 4800 + Math.random() * 2200;
+    // Objects only travel down the left or right side of the tunnel. They start
+    // small in the distance, then follow a straight perspective ray away from
+    // the vanishing point toward a bottom corner while growing much larger.
+    const side = Math.random() < 0.5 ? -1 : 1;
+    const sideSpread = 0.84 + Math.random() * 0.18;
+    const downSpread = 0.48 + Math.random() * 0.18;
+    const startDepth = 0.58 + Math.random() * 0.08;
+    const endDepth = 1.32 + Math.random() * 0.16;
+    const startSize = 18 + Math.random() * 14;
+    const endSize = 360 + Math.random() * 260;
+    const duration = 7200 + Math.random() * 2200;
     const startTime = performance.now();
 
     backgroundObjectLayer.appendChild(image);
@@ -3123,38 +3126,63 @@ function spawnBackgroundObject() {
 
         const t = Math.min(1, (now - startTime) / duration);
 
-        // Constant forward motion in 3D. The projection itself creates the
-        // accelerating-looking motion seen in the background GIF.
-        const z = startZ + (endZ - startZ) * t;
+        // Perspective growth accelerates toward the viewer instead of moving
+        // at a flat 2D speed. This also makes the object spend more time being
+        // recognizable before it shoots past the edge of the screen.
+        const perspectiveT = (Math.exp(t * 2.15) - 1) / (Math.exp(2.15) - 1);
+        const depth = startDepth + (endDepth - startDepth) * perspectiveT;
+
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
-        const minSide = Math.min(viewportWidth, viewportHeight);
-        const focalLength = minSide * 0.30;
-        const projection = focalLength / z;
+        const vanishX = viewportWidth * 0.5;
+        const vanishY = viewportHeight * 0.505;
 
-        const x = viewportWidth * 0.5 + worldX * projection;
-        const y = viewportHeight * 0.5 + worldY * projection;
-        const width = Math.max(2, worldSize * projection);
+        const rayX = side * viewportWidth * 0.50 * sideSpread;
+        const rayY = viewportHeight * 0.50 * downSpread;
 
-        // Fade gently out right as it reaches the "camera" so it does not pop away.
-        let opacity = 1;
-        if (t < 0.08) opacity = t / 0.08;
-        if (t > 0.90) opacity = (1 - t) / 0.10;
+        const centerX = vanishX + rayX * depth;
+        const centerY = vanishY + rayY * depth;
+        const width = Math.round(startSize + (endSize - startSize) * perspectiveT);
 
-        image.style.left = x + "px";
-        image.style.top = y + "px";
+        const ratio = image.naturalWidth > 0 && image.naturalHeight > 0
+            ? image.naturalHeight / image.naturalWidth
+            : 1;
+        const height = Math.max(1, Math.round(width * ratio));
+
+        // Integer positions and dimensions keep scaled PNGs/GIFs nearest-neighbor
+        // instead of letting fractional CSS pixels blur them.
+        image.style.transform = "none";
         image.style.width = width + "px";
-        image.style.opacity = Math.max(0, Math.min(1, opacity));
-        image.style.transform = "translate(-50%, -50%)";
+        image.style.height = height + "px";
+        image.style.left = Math.round(centerX - width / 2) + "px";
+        image.style.top = Math.round(centerY - height / 2) + "px";
 
-        if (t < 1) {
+        let opacity = 1;
+        if (t < 0.10) opacity = t / 0.10;
+        if (t > 0.91) opacity = (1 - t) / 0.09;
+        image.style.opacity = Math.max(0, Math.min(1, opacity));
+
+        const fullyPastSide = side < 0
+            ? centerX + width / 2 < -20
+            : centerX - width / 2 > viewportWidth + 20;
+        const fullyPastBottom = centerY - height / 2 > viewportHeight + 20;
+
+        if (t < 1 && !fullyPastSide && !fullyPastBottom) {
             requestAnimationFrame(animate);
         } else {
             image.remove();
         }
     }
 
-    requestAnimationFrame(animate);
+    // naturalWidth/naturalHeight are needed to keep the original aspect ratio.
+    // Start as soon as the browser knows them, but don't let a broken decorative
+    // file affect the rest of the website.
+    if (image.complete && image.naturalWidth > 0) {
+        requestAnimationFrame(animate);
+    } else {
+        image.addEventListener("load", () => requestAnimationFrame(animate), { once: true });
+        image.addEventListener("error", () => image.remove(), { once: true });
+    }
 }
 
 // Stop spending animation work while the tab is hidden, then resume naturally.
