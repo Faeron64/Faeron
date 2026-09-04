@@ -6,7 +6,7 @@
 <title>Faeron's Homepage</title>
 <link rel="icon" href="./icon.png" type="image/png">
 
-<script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=lUcTXcqOFVJYvQD4JKWItC7CWeSamqy1-AL8qLM6hLOT73ClKGtx9XaiDvFkUHqGm0HOW25jZ1FuTU48T66HmyyyTtWp5yeAXARoalldS7xQm6uAnaUxSEnPDiWxx2OlsjhkXLfD29OxE1m3Q1YOHjCIE-gEKpkHyCIKca57IpIgqmi3CfTp9Bc2KULxTUktzDfCu8uhmgUU2yuQFkn9gqFcX5NwDRnh8iozoJMXaxSXR-PDv6FYevW9-8gg9cMEpXsBBfLqgfOyy-zwDIDtRcmgNQgzKbVZshNMBQBbI5nYLlc58HJUUxq9SFXpDqTUX9RujGv4B0Je-qSTj0hd8WpTPN7tthweuuKKrnrZJ68" charset="UTF-8"></script><script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=qw63_xkXcSV9UoFEGkxuBX2kx_mM9yuGaVPDnt3RL3M5kBSONLoGeJo5QPZVs7kG5gO9eUV0MpJ0YebT-7jD2q5tJHyHVqxZvjKbi8yhxoPqOWQmTcBRN3c4HAlMgN8QV6RqNGTNgZ_eqhSktDteUXORF4Eio6jWtF7GaKuWHh7f8FwM_PHJW1pHy9KeDRs-26g6sI_UropxZE2a_7arbm-KHJoVjpJDFlV_8zHxs7yUguKYDGALQPEvRiFY4XSNwP9WzPPHt8z7jkPCdwh6gg" charset="UTF-8"></script><style>
+<script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=qw63_xkXcSV9UoFEGkxuBX2kx_mM9yuGaVPDnt3RL3M5kBSONLoGeJo5QPZVs7kG5gO9eUV0MpJ0YebT-7jD2q5tJHyHVqxZvjKbi8yhxoPqOWQmTcBRN3c4HAlMgN8QV6RqNGTNgZ_eqhSktDteUXORF4Eio6jWtF7GaKuWHh7f8FwM_PHJW1pHy9KeDRs-26g6sI_UropxZE2a_7arbm-KHJoVjpJDFlV_8zHxs7yUguKYDGALQPEvRiFY4XSNwP9WzPPHt8z7jkPCdwh6gg" charset="UTF-8"></script><style>
 * {
     box-sizing: border-box;
 }
@@ -56,7 +56,7 @@ body {
     image-rendering: crisp-edges;
     pointer-events: none;
     user-select: none;
-    will-change: left, top, width, height, opacity;
+    will-change: left, top, width, height;
 }
 
 #background-tint {
@@ -3113,11 +3113,13 @@ function spawnBackgroundObject() {
     const side = Math.random() < 0.5 ? -1 : 1;
     const sideSpread = 0.92 + Math.random() * 0.12;
     const downSpread = 0.72 + Math.random() * 0.14;
-    const startDepth = 0.06 + Math.random() * 0.07;
+    // Begin even closer to the actual center so the website fully hides the spawn.
+    const startDepth = 0.025 + Math.random() * 0.035;
     const endDepth = 1.42 + Math.random() * 0.18;
     const startSize = 7 + Math.random() * 7;
     const endSize = 400 + Math.random() * 260;
-    const duration = 8200 + Math.random() * 2200;
+    // Slightly faster than before, but still slow enough to recognize the object.
+    const duration = 7000 + Math.random() * 1900;
     const startTime = performance.now();
 
     backgroundObjectLayer.appendChild(image);
@@ -3125,20 +3127,22 @@ function spawnBackgroundObject() {
     function animate(now) {
         if (!image.isConnected) return;
 
-        const t = Math.min(1, (now - startTime) / duration);
+        const rawT = (now - startTime) / duration;
+        const t = Math.min(1, rawT);
 
         // Perspective growth accelerates toward the viewer instead of moving
-        // at a flat 2D speed. This also makes the object spend more time being
-        // recognizable before it shoots past the edge of the screen.
+        // at a flat 2D speed. Once it reaches its intended full size, keep
+        // pushing it outward until the entire image has physically left screen.
         const perspectiveT = (Math.exp(t * 2.15) - 1) / (Math.exp(2.15) - 1);
-        const depth = startDepth + (endDepth - startDepth) * perspectiveT;
+        const extraTravel = Math.max(0, rawT - 1);
+        const depth = startDepth + (endDepth - startDepth) * perspectiveT + extraTravel * 1.2;
 
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
         const vanishX = viewportWidth * 0.5;
-        // Deliberately higher than screen center so the hidden starting point
-        // lines up better with the tunnel perspective and the top half of the UI.
-        const vanishY = viewportHeight * 0.36;
+        // Start higher so it emerges along the upper part of the tunnel rays
+        // instead of appearing too low beside the website.
+        const vanishY = viewportHeight * 0.30;
 
         const rayX = side * viewportWidth * 0.50 * sideSpread;
         const rayY = viewportHeight * 0.58 * downSpread;
@@ -3160,18 +3164,16 @@ function spawnBackgroundObject() {
         image.style.left = Math.round(centerX - width / 2) + "px";
         image.style.top = Math.round(centerY - height / 2) + "px";
 
-        // Do not fade in. It begins fully opaque while hidden behind the site,
-        // so the first visible moment is it physically emerging from behind it.
-        let opacity = 1;
-        if (t > 0.93) opacity = (1 - t) / 0.07;
-        image.style.opacity = Math.max(0, Math.min(1, opacity));
+        // Never fade. It stays fully opaque until the whole object has actually
+        // travelled beyond a side or the bottom edge of the viewport.
+        image.style.opacity = "1";
 
         const fullyPastSide = side < 0
             ? centerX + width / 2 < -20
             : centerX - width / 2 > viewportWidth + 20;
         const fullyPastBottom = centerY - height / 2 > viewportHeight + 20;
 
-        if (t < 1 && !fullyPastSide && !fullyPastBottom) {
+        if (!fullyPastSide && !fullyPastBottom && rawT < 2.5) {
             requestAnimationFrame(animate);
         } else {
             image.remove();
