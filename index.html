@@ -638,6 +638,25 @@ body.dark-mode .online-counter {
     border-bottom-color: #050505;
 }
 
+/* Scale the whole site up on large/high-resolution displays. */
+@media (min-width: 1600px) {
+    .site {
+        zoom: 1.15;
+    }
+}
+
+@media (min-width: 2100px) {
+    .site {
+        zoom: 1.35;
+    }
+}
+
+@media (min-width: 3000px) {
+    .site {
+        zoom: 1.6;
+    }
+}
+
 @media (max-width: 700px) {
     .site {
         margin-top: 80px;
